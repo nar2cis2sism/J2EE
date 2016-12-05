@@ -49,7 +49,9 @@ public class RequestDispatcher {
         
         protected final void setSuccess(JSONObject data) {
             StringBuilder sb = new StringBuilder()
-            .append("{\"code\":\"200\"");
+            .append("{\"code\":\"")
+            .append(ErrorInfo.CODE_SUCCESS)
+            .append("\"");
             if (data != null)
             {
                 sb.append(",\"data\":").append(data.toString());

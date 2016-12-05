@@ -3,6 +3,7 @@ package app.servlet;
 import app.parser.GetUserInfoParser;
 import app.parser.LoginParser;
 import app.parser.NavigationParser;
+import app.servlet.util.EntityUtil;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher;
 import app.socket.SocketManager;
@@ -18,9 +19,6 @@ import protocol.java.json.ErrorInfo;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -76,7 +74,7 @@ public class AppServlet extends HttpServlet {
 	    
 	    String response;
 	    try {
-            String request = read(req.getInputStream());
+            String request = EntityUtil.toString(IOUtil.readStream(req.getInputStream()));
             LOG.log(request);
             
             JSONObject json = new JSONObject(request);
@@ -96,12 +94,7 @@ public class AppServlet extends HttpServlet {
         LOG.log(response);
         
 	    resp.setContentType("text/json;charset=UTF-8");
-        resp.getWriter().append(response).flush();
-	}
-	
-	public static String read(InputStream is) throws IOException {
-	    StringWriter sw = new StringWriter();
-        IOUtil.writeStream(new InputStreamReader(is), sw);
-        return sw.toString();
+	    resp.getOutputStream().write(EntityUtil.toByteArray(response));
+	    resp.getOutputStream().flush();
 	}
 }

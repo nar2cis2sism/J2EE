@@ -2,12 +2,12 @@ package app.socket;
 
 import app.bean.User;
 import app.servlet.util.Session;
-import engine.java.util.io.ByteDataUtil.ByteData;
+import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.Message;
 
 public class SocketParser {
     
-    public void parse(int cmd, int msgId, ByteData data) {
+    public void parse(int cmd, int msgId, ProtocolData data) {
         if (data instanceof Message)
         {
             Message msg = (Message) data;

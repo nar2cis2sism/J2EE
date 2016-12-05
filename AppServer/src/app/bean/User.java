@@ -2,7 +2,7 @@ package app.bean;
 
 import app.db.UserInfo;
 import app.socket.SocketConnection;
-import engine.java.util.io.ByteDataUtil.ByteData;
+import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.ErrorInfo;
 
 public class User {
@@ -47,7 +47,7 @@ public class User {
      * @param msgId
      * @param data
      */
-    public void push(int cmd, int msgId, ByteData data) {
+    public void push(int cmd, int msgId, ProtocolData data) {
         if (conn != null)
         {
             conn.send(cmd, msgId, data);

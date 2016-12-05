@@ -5,13 +5,13 @@ import static engine.java.log.LogFactory.LOG.log;
 import app.bean.User;
 import app.servlet.util.Session;
 import app.servlet.util.TokenManager;
-import engine.java.util.io.ByteDataUtil.ByteData;
 import engine.java.util.io.IOUtil;
 import engine.java.util.secure.CRCUtility;
 import engine.java.util.secure.HexUtil;
 import engine.java.util.secure.Obfuscate;
 import protocol.java.ProtocolWrapper;
 import protocol.java.ProtocolWrapper.ProtocolEntity;
+import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -134,7 +134,7 @@ public class SocketConnection implements Runnable {
         IOUtil.closeSilently(socket);
     }
 
-    private void receive(int cmd, int msgId, ByteData data) {
+    private void receive(int cmd, int msgId, ProtocolData data) {
         log("收到socket信令包-" + uid, data);
         parser.parse(cmd, msgId, data);
     }
@@ -142,7 +142,7 @@ public class SocketConnection implements Runnable {
     /**
      * 发送数据
      */
-    public void send(int cmd, int msgId, ByteData data) {
+    public void send(int cmd, int msgId, ProtocolData data) {
         log("发送socket信令包-" + uid, data);
         try {
             ProtocolEntity entity = ProtocolEntity.newInstance(msgId, cmd, data);

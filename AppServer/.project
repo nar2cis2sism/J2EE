@@ -45,14 +45,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>engine_src</name>
+			<name>src_engine</name>
 			<type>2</type>
-			<location>D:/Work/MyEclipse Professional 2014/workspace/JavaEngine/src</location>
+			<location>D:/Work/Java/workspace/Java/JavaEngine/src</location>
 		</link>
 		<link>
-			<name>protocol_src</name>
+			<name>src_protocol</name>
 			<type>2</type>
-			<location>D:/Work/MyEclipse Professional 2014/workspace/JavaProtocol/src</location>
+			<location>D:/Work/Java/workspace/Java/JavaProtocol/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

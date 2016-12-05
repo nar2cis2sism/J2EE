@@ -1,6 +1,7 @@
 package app.http.script;
 
 import app.servlet.AppServlet;
+import app.servlet.util.EntityUtil;
 import engine.java.http.HttpConnector;
 import engine.java.http.HttpResponse;
 import engine.java.util.io.IOUtil;
@@ -44,7 +45,7 @@ public class HttpScript {
             &&  statusCode <  HttpURLConnection.HTTP_MULT_CHOICE)
             {
                 // Success
-                String msg = AppServlet.read(response.getContent());
+                String msg = EntityUtil.toString(response.getContent());
                 System.out.println("服务器返回--" + statusCode + ":" + msg);
                 return msg;
             }
