@@ -29,7 +29,11 @@ public class SocketManager implements Runnable {
     public static synchronized void setup() {
         if (instance == null)
         {
-            ProtocolWrapper.setEncryptSecret(CRYPT_KEY);
+            byte[] key = new byte[16];
+            System.arraycopy(CRYPT_KEY, 0, key, 0, CRYPT_KEY.length);
+            System.arraycopy(CRYPT_KEY, 0, key, CRYPT_KEY.length, CRYPT_KEY.length);
+            
+            ProtocolWrapper.setEncryptSecret(key);
             instance = new SocketManager();
         }
     }

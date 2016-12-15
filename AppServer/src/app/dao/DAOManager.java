@@ -1,9 +1,6 @@
 package app.dao;
 
-import app.db.AppUpgradeInfo;
 import engine.java.dao.DAOTemplate;
-import engine.java.dao.DAOTemplate.DAOClause;
-import engine.java.dao.DAOTemplate.DAOClause.DAOParam;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
 import engine.java.db.DatabaseDriver;
@@ -39,24 +36,16 @@ public class DAOManager {
     }
     
     public static class BaseDAO {
+        
+        public static DAOTemplate getDAO() {
+            return DAOManager.getDAO();
+        }
 
         public static <T> T findItemByProperty(Class<T> cls, String property, Object value) {
             DAOExpression whereClause = DAOExpression.create(property).equal(value);
             return getDAO().find(DAOQueryBuilder.create(cls)
                     .setWhereClause(whereClause), 
                     cls);
-        }
-    }
-    
-    public static class CommonDAO extends BaseDAO {
-        
-        public static AppUpgradeInfo getNewlyApp(int device) {
-            DAOExpression whereClause = DAOExpression.create("device").equal(device);
-            
-            return getDAO().find(DAOQueryBuilder.create(AppUpgradeInfo.class)
-                    .setWhereClause(whereClause)
-                    .setOrderClause(DAOClause.create(new DAOParam("version")), true), 
-                    AppUpgradeInfo.class);
         }
     }
 }

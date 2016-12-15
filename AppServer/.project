@@ -47,12 +47,12 @@
 		<link>
 			<name>src_engine</name>
 			<type>2</type>
-			<location>D:/Work/Java/workspace/Java/JavaEngine/src</location>
+			<location>E:/百度云同步盘/Github/Java/JavaEngine/src</location>
 		</link>
 		<link>
 			<name>src_protocol</name>
 			<type>2</type>
-			<location>D:/Work/Java/workspace/Java/JavaProtocol/src</location>
+			<location>E:/百度云同步盘/Github/Java/JavaProtocol/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

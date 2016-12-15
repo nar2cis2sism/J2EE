@@ -1,6 +1,5 @@
 package app.dao;
 
-import static app.dao.DAOManager.getDAO;
 import app.dao.DAOManager.BaseDAO;
 import app.db.UserInfo;
 import engine.java.dao.DAOTemplate.DAOClause;
@@ -9,6 +8,14 @@ import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
 
 public class UserDAO extends BaseDAO {
+    
+    public static UserInfo[] getUserByIds(long... uid) {
+        DAOExpression whereClause = DAOExpression.create("uid").in(uid);
+        
+        return getDAO().find(DAOQueryBuilder.create(UserInfo.class)
+                .setWhereClause(whereClause), 
+                UserInfo[].class);
+    }
     
     public static UserInfo getUserByUsername(String username) {
         return findItemByProperty(UserInfo.class, "username", username);

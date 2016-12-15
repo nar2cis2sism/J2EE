@@ -3,6 +3,7 @@ package app.socket;
 import static app.socket.SocketManager.CRYPT_KEY;
 import static engine.java.log.LogFactory.LOG.log;
 import app.bean.User;
+import app.servlet.util.GsonUtil;
 import app.servlet.util.Session;
 import app.servlet.util.TokenManager;
 import engine.java.util.io.IOUtil;
@@ -83,13 +84,12 @@ public class SocketConnection implements Runnable {
             throw new Exception("Token认证失败");
         }
         
-        if (crc != CRCUtility.calculate(CRYPT_KEY, CRYPT_KEY.length))
+        if (crc != (CRCUtility.calculate(CRYPT_KEY, CRYPT_KEY.length) & 0xFF))
         {
 
             out.write(-2);
             throw new Exception("CRC校验失败");
         }
-        
 
         // 握手成功
         out.write(0);
@@ -135,7 +135,7 @@ public class SocketConnection implements Runnable {
     }
 
     private void receive(int cmd, int msgId, ProtocolData data) {
-        log("收到socket信令包-" + uid, data);
+        log("收到socket信令包-" + uid, data.getClass().getSimpleName() + GsonUtil.toJson(data));
         parser.parse(cmd, msgId, data);
     }
 
@@ -143,7 +143,7 @@ public class SocketConnection implements Runnable {
      * 发送数据
      */
     public void send(int cmd, int msgId, ProtocolData data) {
-        log("发送socket信令包-" + uid, data);
+        log("发送socket信令包-" + uid, GsonUtil.toJson(data));
         try {
             ProtocolEntity entity = ProtocolEntity.newInstance(msgId, cmd, data);
             entity.generateBody();

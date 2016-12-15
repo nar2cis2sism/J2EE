@@ -21,7 +21,8 @@ public class RegisterScript {
         {
             item = new UserInfo();
             item.username = username;
-            item.password = HexUtil.encode(CryptoUtil.SHA1(password.getBytes()));
+            item.password = HexUtil.encode(CryptoUtil.SHA1((password + "000").getBytes()));
+            item.registerTime = System.currentTimeMillis();
             if (getDAO().save(item))
             {
                 System.out.println("注册成功");

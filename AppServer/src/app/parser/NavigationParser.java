@@ -1,6 +1,6 @@
 package app.parser;
 
-import app.dao.DAOManager.CommonDAO;
+import app.dao.CommonDAO;
 import app.db.AppUpgradeInfo;
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.socket.SocketManager;

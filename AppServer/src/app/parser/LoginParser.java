@@ -44,7 +44,7 @@ public class LoginParser extends AppParser {
         JSONObject data = new JSONObject();
         data.put("token", token);
         data.put("uid", uid);
-        if (user_info_ver != null) data.put("user_info_ver", user_info_ver);
+        data.put("user_info_ver", user_info_ver);
         
         setSuccess(data);
     }

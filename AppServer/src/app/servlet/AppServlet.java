@@ -3,6 +3,7 @@ package app.servlet;
 import app.parser.GetUserInfoParser;
 import app.parser.LoginParser;
 import app.parser.NavigationParser;
+import app.parser.QueryFriendListParser;
 import app.servlet.util.EntityUtil;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AppServlet extends HttpServlet {
     
-    public static final String SERVER_IP        = "127.0.0.1";
+    public static final String SERVER_IP        = "192.168.1.101";
     private static final int SERVER_PORT         = 8080;
     
     public static final String SERVER_URL = String.format("http://%s:%d/AppServer/", SERVER_IP, SERVER_PORT);
@@ -55,6 +56,7 @@ public class AppServlet extends HttpServlet {
 	    RequestDispatcher.register("navigation", NavigationParser.class);
 	    RequestDispatcher.register("login", LoginParser.class);
 	    RequestDispatcher.register("get_user_info", GetUserInfoParser.class);
+	    RequestDispatcher.register("query_friend_list", QueryFriendListParser.class);
 	}
 	
 	private void initSocket() {
