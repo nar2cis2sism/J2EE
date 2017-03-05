@@ -1,10 +1,10 @@
-package app.parser;
+package app.http.parser;
 
 import app.bean.User;
+import app.bean.db.FriendReflog;
+import app.bean.db.UserInfo;
 import app.dao.FriendDAO;
 import app.dao.UserDAO;
-import app.db.FriendReflog;
-import app.db.UserInfo;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher.TokenParser;
 

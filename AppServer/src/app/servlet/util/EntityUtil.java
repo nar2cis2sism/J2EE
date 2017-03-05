@@ -3,6 +3,7 @@ package app.servlet.util;
 import java.io.UnsupportedEncodingException;
 
 import engine.java.util.secure.Blowfish;
+import engine.java.util.string.TextUtils;
 
 public class EntityUtil {
     
@@ -20,6 +21,9 @@ public class EntityUtil {
     }
     
     public static String toString(byte[] data) throws UnsupportedEncodingException {
+        if (data == null)
+            return "";
+        
         if (encryptor != null)
             data = encryptor.decrypt(data);
         
@@ -27,6 +31,9 @@ public class EntityUtil {
     }
     
     public static byte[] toByteArray(String entity) throws UnsupportedEncodingException {
+        if (TextUtils.isEmpty(entity))
+            return new byte[0];
+        
         byte[] data = entity.getBytes("UTF-8");
         if (encryptor != null)
             data = encryptor.encrypt(data);

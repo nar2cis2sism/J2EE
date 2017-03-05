@@ -1,7 +1,7 @@
 package app.dao;
 
+import app.bean.db.AppUpgradeInfo;
 import app.dao.DAOManager.BaseDAO;
-import app.db.AppUpgradeInfo;
 import engine.java.dao.DAOTemplate.DAOClause;
 import engine.java.dao.DAOTemplate.DAOClause.DAOParam;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;

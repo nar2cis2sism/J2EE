@@ -1,4 +1,4 @@
-package app.parser;
+package app.http.parser;
 
 import app.bean.User;
 import app.servlet.util.GsonUtil;

@@ -1,8 +1,8 @@
 package app.dao.script;
 
 import static app.dao.DAOManager.getDAO;
+import app.bean.db.UserInfo;
 import app.dao.UserDAO;
-import app.db.UserInfo;
 import engine.java.util.secure.CryptoUtil;
 import engine.java.util.secure.HexUtil;
 

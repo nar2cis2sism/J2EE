@@ -4,9 +4,9 @@ import static app.dao.script.AppUploadScript.uploadApp;
 import static app.dao.script.RegisterScript.register;
 import static app.dao.script.FriendScript.addFriend;
 import static app.dao.DAOManager.getDAO;
-import app.db.AppUpgradeInfo;
-import app.db.FriendReflog;
-import app.db.UserInfo;
+import app.bean.db.AppUpgradeInfo;
+import app.bean.db.FriendReflog;
+import app.bean.db.UserInfo;
 
 import java.io.File;
 

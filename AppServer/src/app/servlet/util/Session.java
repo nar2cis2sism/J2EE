@@ -1,11 +1,11 @@
 package app.servlet.util;
 
 import app.bean.User;
-import app.db.UserInfo;
+import app.bean.db.UserInfo;
 
 import java.util.HashMap;
 
-public class Session {
+public final class Session {
     
     private static final HashMap<Long, User> userMap
     = new HashMap<Long, User>();                                    // 用户查询表

@@ -1,4 +1,4 @@
-package app.db;
+package app.bean.db;
 
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
@@ -14,7 +14,7 @@ public class FriendReflog {
     private long id;
     
     @DAOProperty
-    public long uid;                        // 用户ID
+    public long user_id;                    // 用户ID
 
     @DAOProperty
     public long friend_id;                  // 好友ID
@@ -26,6 +26,9 @@ public class FriendReflog {
      */
     @DAOProperty
     public int op;                          // 操作指令
+
+    @DAOProperty
+    public String remark;                   // 好友备注
 
     @DAOProperty
     public long time;                       // 记录时间

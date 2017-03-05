@@ -1,7 +1,7 @@
 package app.dao.script;
 
 import static app.dao.DAOManager.getDAO;
-import app.db.AppUpgradeInfo;
+import app.bean.db.AppUpgradeInfo;
 import app.servlet.FileUploadServlet;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;

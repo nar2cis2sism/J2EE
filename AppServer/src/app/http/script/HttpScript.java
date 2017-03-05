@@ -1,6 +1,6 @@
 package app.http.script;
 
-import app.servlet.AppServlet;
+import app.servlet.AppConfig;
 import app.servlet.util.EntityUtil;
 import engine.java.http.HttpConnector;
 import engine.java.http.HttpResponse;
@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 
 /**
  * 网络接口测试脚本
- * @author Daimon
  */
 public class HttpScript {
     
@@ -36,7 +35,7 @@ public class HttpScript {
     
     private static String debug(String action, String remark) {
         try {
-            HttpResponse response = new HttpConnector(AppServlet.APP_URL, getFileContent(action))
+            HttpResponse response = new HttpConnector(AppConfig.APP_URL, getFileContent(action))
             .setRemark(remark)
             .connect();
 

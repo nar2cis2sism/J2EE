@@ -1,7 +1,7 @@
-package app.parser;
+package app.http.parser;
 
+import app.bean.db.AppUpgradeInfo;
 import app.dao.CommonDAO;
-import app.db.AppUpgradeInfo;
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.socket.SocketManager;
 

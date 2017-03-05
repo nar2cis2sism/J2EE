@@ -1,7 +1,7 @@
 package app.dao;
 
+import app.bean.db.FriendReflog;
 import app.dao.DAOManager.BaseDAO;
-import app.db.FriendReflog;
 import engine.java.dao.DAOTemplate.DAOClause;
 import engine.java.dao.DAOTemplate.DAOClause.DAOParam;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;

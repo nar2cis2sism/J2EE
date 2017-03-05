@@ -1,4 +1,4 @@
-package app.db;
+package app.bean.db;
 
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
@@ -40,6 +40,8 @@ public class AppUpgradeInfo {
      */
     @DAOProperty
     public int device;                      // 客户端类型（可以组合）
+
+    /******************************* 华丽丽的分割线 *******************************/
     
     public protocol.java.json.AppUpgradeInfo toProtocol() {
         protocol.java.json.AppUpgradeInfo item = new protocol.java.json.AppUpgradeInfo();

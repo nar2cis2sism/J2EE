@@ -1,7 +1,7 @@
 package app.dao.script;
 
 import static app.dao.DAOManager.getDAO;
-import app.db.FriendReflog;
+import app.bean.db.FriendReflog;
 
 public class FriendScript {
     

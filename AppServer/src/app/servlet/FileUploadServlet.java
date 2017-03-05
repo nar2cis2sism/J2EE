@@ -15,9 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 文件上传处理器
+ */
 public class FileUploadServlet extends HttpServlet {
-    
-    public static final String FILE_UPLOAD_URL = AppServlet.SERVER_URL + "fileUpload?path=";
     
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +50,8 @@ public class FileUploadServlet extends HttpServlet {
      */
     public static boolean uploadFile(File srcFile, String desPath) {
         try {
-            HttpResponse response = new HttpConnector(FILE_UPLOAD_URL + desPath, FileManager.readFile(srcFile))
+            HttpResponse response = new HttpConnector(AppConfig.FILE_UPLOAD_URL + desPath, 
+                    FileManager.readFile(srcFile))
             .setRemark("文件上传")
             .connect();
 

@@ -9,15 +9,31 @@ import protocol.java.json.ErrorInfo;
 
 import java.util.HashMap;
 
+/**
+ * 请求分发器
+ */
 public class RequestDispatcher {
     
     private static final HashMap<String, Class<? extends AppParser>> dispatcherMap
     = new HashMap<String, Class<? extends AppParser>>();
     
+    /**
+     * 需要提前注册请求处理器
+     * 
+     * @param action 指令名称
+     * @param parserCls 指令解析类
+     */
     public static void register(String action, Class<? extends AppParser> parserCls) {
         dispatcherMap.put(action, parserCls);
     }
     
+    /**
+     * 分发请求
+     * 
+     * @param action 指令名称
+     * @param json 请求参数
+     * @return 返回数据
+     */
     public static String dispatch(String action, JSONObject json) {
         try {
             Class<? extends AppParser> cls = dispatcherMap.get(action);

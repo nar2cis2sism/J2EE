@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 
 public class GsonUtil {
     
-    private static final ThreadLocal<Gson> gson = new ThreadLocal<Gson>() {
-        
-        protected Gson initialValue() {
-            return new Gson();
-        };
-    };
+    private static final Gson gson = new Gson();
     
     public static String toJson(Object src) {
-        return gson.get().toJson(src);
+        return gson.toJson(src);
+    }
+    
+    public static <T> T fromJson(String json, Class<T> type) {
+        return gson.fromJson(json, type);
     }
 }

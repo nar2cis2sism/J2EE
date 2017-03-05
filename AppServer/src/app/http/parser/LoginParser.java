@@ -1,7 +1,7 @@
-package app.parser;
+package app.http.parser;
 
+import app.bean.db.UserInfo;
 import app.dao.UserDAO;
-import app.db.UserInfo;
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.servlet.util.TokenManager;
 

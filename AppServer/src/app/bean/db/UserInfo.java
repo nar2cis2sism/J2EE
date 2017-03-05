@@ -1,4 +1,4 @@
-package app.db;
+package app.bean.db;
 
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
@@ -13,36 +13,29 @@ public class UserInfo {
     
     @DAOPrimaryKey(autoincrement=true)
     private long uid;                       // 用户唯一标识
+
+    /******************************* 注册信息 *******************************/
     
     @DAOProperty
-    public String username;                 // 注册用户名
+    public String username;                 // 注册用户名（不能重复）
 
     @DAOProperty
-    public String password;                 // 注册密码
+    public String password;                 // 注册密码（SHA1加密后的）
 
     @DAOProperty
-    public long registerTime;               // 注册时间
+    public long register_time;              // 注册时间
 
     @DAOProperty
-    public long lastModified;               // 最后修改时间
+    public String register_email;           // 注册邮箱
 
     @DAOProperty
-    public long lastLoginTime;              // 最近登录时间
+    public String mobile_number;            // 用户手机号
 
     @DAOProperty
-    public String loginDeviceID;            // 登录设备号
+    public String nickname;                 // 用户昵称
 
     @DAOProperty
-    public String avatar_url;               // 头像下载地址
-
-    @DAOProperty
-    public String avatar_ver;               // 头像版本号
-
-    @DAOProperty
-    public String realname;                 // 真实姓名
-
-    @DAOProperty
-    public String nickname;                 // 昵称
+    public String name;                     // 真实姓名
     
     /**
      * 0：男
@@ -52,24 +45,46 @@ public class UserInfo {
     public int gender;                      // 性别
 
     @DAOProperty
-    public String city;                     // 地区
-
-    @DAOProperty
     public long birthday;                   // 出生日期
 
     @DAOProperty
-    public String resume;                   // 个人简介
+    public String city;                     // 常驻城市
+
+    @DAOProperty
+    public String signature;                // 签名
+
+    @DAOProperty
+    public String profile;                  // 个人简介
+
+    @DAOProperty
+    public long version;                    // 用户资料的版本号
 
     @DAOProperty
     public boolean isAuthenticated;         // 实名认证
 
-    /********************* 好友 *********************/
+    @DAOProperty
+    public String avatar_url;               // 头像下载地址
+
+    @DAOProperty
+    public String avatar_ver;               // 头像版本号
+
+    /******************************* 登录信息 *******************************/
+
+    @DAOProperty
+    public long last_login_time;            // 最近登录时间
+
+    @DAOProperty
+    public String last_login_deviceID;      // 最近登录设备号
+
+    /******************************* 好友信息 *******************************/
 
     @DAOProperty
     public String friend_list;              // 好友列表，用","分隔
 
     @DAOProperty
     public long friend_list_timestamp;      // 好友列表更新时间戳
+
+    /******************************* 华丽丽的分割线 *******************************/
     
     public final long getUid() {
         return uid;
@@ -79,9 +94,9 @@ public class UserInfo {
      * 包含“用户信息版本”和“头像版本”，用“:”分隔
      */
     public String getVersion() {
-        String infoVer = String.valueOf(lastModified);
+        String userVer = String.valueOf(version);
         String avatarVer = Util.getString(avatar_ver, "");
-        return infoVer + ":" + avatarVer;
+        return userVer + ":" + avatarVer;
     }
 
     public protocol.java.json.UserInfo toProtocol() {

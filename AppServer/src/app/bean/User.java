@@ -1,10 +1,13 @@
 package app.bean;
 
-import app.db.UserInfo;
+import app.bean.db.UserInfo;
 import app.socket.SocketConnection;
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.ErrorInfo;
 
+/**
+ * 登录用户
+ */
 public class User {
     
     public String token;

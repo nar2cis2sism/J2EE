@@ -1,9 +1,9 @@
 package app.servlet;
 
-import app.parser.GetUserInfoParser;
-import app.parser.LoginParser;
-import app.parser.NavigationParser;
-import app.parser.QueryFriendListParser;
+import app.http.parser.GetUserInfoParser;
+import app.http.parser.LoginParser;
+import app.http.parser.NavigationParser;
+import app.http.parser.QueryFriendListParser;
 import app.servlet.util.EntityUtil;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher;
@@ -27,14 +27,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * App处理器
+ */
 public class AppServlet extends HttpServlet {
     
-    public static final String SERVER_IP        = "192.168.1.101";
-    private static final int SERVER_PORT         = 8080;
-    
-    public static final String SERVER_URL = String.format("http://%s:%d/AppServer/", SERVER_IP, SERVER_PORT);
-    public static final String APP_URL = SERVER_URL + "app";
-    
+    /** 测试用途，保证流程走通 **/
     public static final boolean isTest = true;
 	
     private static final long serialVersionUID = 1L;
@@ -49,7 +47,7 @@ public class AppServlet extends HttpServlet {
 	private void initLog() {
 		LogFactory.init(new File(getServletContext().getRealPath("logs"), 
 				CalendarFormat.format(Calendar.getInstance(), "yyyyMMdd_HHmmss")));
-//		LogFactory.enableLOG(true);
+		LogFactory.enableLOG(!isTest);
 	}
 	
 	private void initParser() {
