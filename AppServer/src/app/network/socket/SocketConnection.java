@@ -1,7 +1,7 @@
-package app.socket;
+package app.network.socket;
 
-import static app.socket.SocketManager.CRYPT_KEY;
-import static engine.java.log.LogFactory.LOG.log;
+import static app.network.socket.SocketManager.CRYPT_KEY;
+import static engine.java.util.log.LogFactory.LOG.log;
 import app.bean.User;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.Session;

@@ -1,7 +1,7 @@
 package app.servlet.util;
 
 import app.bean.User;
-import engine.java.log.LogFactory.LOG;
+import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
 

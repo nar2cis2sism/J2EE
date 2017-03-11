@@ -1,8 +1,8 @@
-package app.socket;
+package app.network.socket;
 
-import app.servlet.AppServlet;
-import engine.java.log.LogFactory.LOG;
+import app.servlet.AppConfig;
 import engine.java.util.MyThreadFactory;
+import engine.java.util.log.LogFactory.LOG;
 import protocol.java.ProtocolWrapper;
 
 import java.net.InetAddress;
@@ -70,7 +70,7 @@ public class SocketManager implements Runnable {
             try {
                 serverSocket = new ServerSocket();
                 serverSocket.setReuseAddress(true);
-                serverSocket.bind(new InetSocketAddress(AppServlet.SERVER_IP, PORT));
+                serverSocket.bind(new InetSocketAddress(AppConfig.SERVER_IP, PORT));
                 setAddress(serverSocket);
                 while (true)
                 {

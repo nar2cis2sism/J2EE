@@ -1,4 +1,4 @@
-package app.http;
+package app.network.http;
 
 import engine.java.http.HttpConnector;
 import engine.java.http.HttpResponse;

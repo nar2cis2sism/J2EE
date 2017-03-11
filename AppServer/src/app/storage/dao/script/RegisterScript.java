@@ -1,8 +1,8 @@
-package app.dao.script;
+package app.storage.dao.script;
 
-import static app.dao.DAOManager.getDAO;
-import app.bean.db.UserInfo;
-import app.dao.UserDAO;
+import static app.storage.DAOManager.getDAO;
+import app.storage.dao.UserDAO;
+import app.storage.dao.db.UserInfo;
 import engine.java.util.secure.CryptoUtil;
 import engine.java.util.secure.HexUtil;
 
@@ -22,7 +22,7 @@ public class RegisterScript {
             item = new UserInfo();
             item.username = username;
             item.password = HexUtil.encode(CryptoUtil.SHA1((password + "000").getBytes()));
-            item.registerTime = System.currentTimeMillis();
+            item.register_time = System.currentTimeMillis();
             if (getDAO().save(item))
             {
                 System.out.println("注册成功");

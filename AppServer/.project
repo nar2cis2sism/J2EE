@@ -45,14 +45,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src_engine</name>
+			<name>src_JavaEngine</name>
 			<type>2</type>
-			<location>E:/百度云同步盘/Github/Java/JavaEngine/src</location>
+			<location>D:/Work/Java/Github/Java/JavaEngine/src</location>
 		</link>
 		<link>
-			<name>src_protocol</name>
+			<name>src_JavaProtocol</name>
 			<type>2</type>
-			<location>E:/百度云同步盘/Github/Java/JavaProtocol/src</location>
+			<location>D:/Work/Java/Github/Java/JavaProtocol/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

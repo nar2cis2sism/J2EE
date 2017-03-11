@@ -1,4 +1,4 @@
-package app.http.script;
+package app.network.http.script;
 
 import app.servlet.AppConfig;
 import app.servlet.util.EntityUtil;
@@ -19,6 +19,7 @@ public class HttpScript {
         navigation();
         login();
         getUserInfo();
+        queryFriendList();
     }
     
     private static void navigation() {
@@ -33,9 +34,14 @@ public class HttpScript {
         debug("get_user_info", "获取个人信息");
     }
     
+    private static void queryFriendList() {
+        debug("query_friend_list", "查询好友列表");
+    }
+    
     private static String debug(String action, String remark) {
         try {
-            HttpResponse response = new HttpConnector(AppConfig.APP_URL, getFileContent(action))
+            HttpResponse response = new HttpConnector(AppConfig.APP_URL, 
+                    EntityUtil.toByteArray(new String(getFileContent(action), "UTF-8")))
             .setRemark(remark)
             .connect();
 

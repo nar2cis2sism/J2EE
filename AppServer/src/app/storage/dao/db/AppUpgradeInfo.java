@@ -1,4 +1,4 @@
-package app.bean.db;
+package app.storage.dao.db;
 
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;

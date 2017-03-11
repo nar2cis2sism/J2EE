@@ -1,4 +1,4 @@
-package app.socket;
+package app.network.socket;
 
 import app.bean.User;
 import app.servlet.util.Session;

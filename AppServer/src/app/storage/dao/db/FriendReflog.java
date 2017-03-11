@@ -1,4 +1,4 @@
-package app.bean.db;
+package app.storage.dao.db;
 
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
@@ -32,7 +32,4 @@ public class FriendReflog {
 
     @DAOProperty
     public long time;                       // 记录时间
-
-    @DAOProperty
-    public boolean isFriend;                // 记录当前状态是否为好友
 }

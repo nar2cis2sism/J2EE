@@ -1,12 +1,12 @@
-package app.dao;
+package app.storage;
 
 import engine.java.dao.DAOTemplate;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
-import engine.java.db.DatabaseDriver;
+import engine.java.dao.db.DatabaseDriver;
 import engine.java.util.Singleton;
 
-public class DAOManager {
+public final class DAOManager {
     
     private static final Singleton<DAOManager> instance
     = new Singleton<DAOManager>() {

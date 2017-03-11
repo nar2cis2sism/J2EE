@@ -1,7 +1,7 @@
 package app.bean;
 
-import app.bean.db.UserInfo;
-import app.socket.SocketConnection;
+import app.network.socket.SocketConnection;
+import app.storage.dao.db.UserInfo;
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.ErrorInfo;
 

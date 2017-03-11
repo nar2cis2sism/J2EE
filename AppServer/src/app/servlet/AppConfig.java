@@ -6,7 +6,7 @@ package app.servlet;
 public interface AppConfig {
     
     /** 服务器IP地址 **/
-    public static final String SERVER_IP        = "192.168.1.101";
+    public static final String SERVER_IP        = "192.168.1.102";
     /** 端口号 **/
     public static final int SERVER_PORT         = 8080;
     

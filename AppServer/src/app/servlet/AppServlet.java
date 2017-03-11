@@ -1,17 +1,17 @@
 package app.servlet;
 
-import app.http.parser.GetUserInfoParser;
-import app.http.parser.LoginParser;
-import app.http.parser.NavigationParser;
-import app.http.parser.QueryFriendListParser;
+import app.network.http.parser.GetUserInfoParser;
+import app.network.http.parser.LoginParser;
+import app.network.http.parser.NavigationParser;
+import app.network.http.parser.QueryFriendListParser;
+import app.network.socket.SocketManager;
 import app.servlet.util.EntityUtil;
 import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher;
-import app.socket.SocketManager;
-import engine.java.log.LogFactory;
-import engine.java.log.LogFactory.LOG;
 import engine.java.util.CalendarFormat;
 import engine.java.util.io.IOUtil;
+import engine.java.util.log.LogFactory;
+import engine.java.util.log.LogFactory.LOG;
 import engine.java.util.string.TextUtils;
 
 import org.json.JSONObject;
@@ -51,9 +51,13 @@ public class AppServlet extends HttpServlet {
 	}
 	
 	private void initParser() {
+	    // 获取导航
 	    RequestDispatcher.register("navigation", NavigationParser.class);
+	    // 用户登录
 	    RequestDispatcher.register("login", LoginParser.class);
+	    // 获取个人信息
 	    RequestDispatcher.register("get_user_info", GetUserInfoParser.class);
+	    // 查询好友列表
 	    RequestDispatcher.register("query_friend_list", QueryFriendListParser.class);
 	}
 	

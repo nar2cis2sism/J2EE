@@ -1,9 +1,9 @@
-package app.http.parser;
+package app.network.http.parser;
 
-import app.bean.db.UserInfo;
-import app.dao.UserDAO;
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.servlet.util.TokenManager;
+import app.storage.dao.UserDAO;
+import app.storage.dao.db.UserInfo;
 
 import org.json.JSONObject;
 
@@ -38,13 +38,11 @@ public class LoginParser extends AppParser {
         
         // 生成用户登录凭证
         String token = TokenManager.generateToken(item, deviceID);
-        long uid = item.getUid();
-        String user_info_ver = item.getVersion();
         
         JSONObject data = new JSONObject();
         data.put("token", token);
-        data.put("uid", uid);
-        data.put("user_info_ver", user_info_ver);
+        data.put("uid", item.getUid());
+        data.put("user_info_ver", item.getVersion());
         
         setSuccess(data);
     }

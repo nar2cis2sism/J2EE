@@ -1,8 +1,9 @@
-package app.dao.script;
+package app.storage.dao.script;
 
-import static app.dao.DAOManager.getDAO;
-import app.bean.db.AppUpgradeInfo;
+import static app.storage.DAOManager.getDAO;
+import app.servlet.AppConfig;
 import app.servlet.FileUploadServlet;
+import app.storage.dao.db.AppUpgradeInfo;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
 
@@ -28,14 +29,14 @@ public class AppUploadScript {
         else
         {
             // 相对路径
-            File uploadFile = new File(getApkDir(version), file.getName());
+            File uploadFile = new File(getApkDir(device, version), file.getName());
             if (FileUploadServlet.uploadFile(file, uploadFile.getPath()))
             {
                 item = new AppUpgradeInfo();
                 item.type = type;
                 item.name = name;
                 item.version = version;
-                item.url = FileUploadServlet.FILE_UPLOAD_URL + uploadFile.getPath();
+                item.url = AppConfig.SERVER_URL + uploadFile.getPath();
                 item.desc = desc;
                 item.device = device;
                 if (getDAO().save(item))
@@ -49,8 +50,8 @@ public class AppUploadScript {
         }
     }
     
-    private static File getApkDir(String version) {
+    private static File getApkDir(int device, String version) {
         // 相对路径
-        return new File("apk", version);
+        return new File("apk/" + device, version);
     }
 }

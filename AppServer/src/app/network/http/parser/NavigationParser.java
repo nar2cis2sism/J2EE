@@ -1,13 +1,11 @@
-package app.http.parser;
+package app.network.http.parser;
 
-import app.bean.db.AppUpgradeInfo;
-import app.dao.CommonDAO;
+import app.network.socket.SocketManager;
+import app.servlet.util.GsonUtil;
 import app.servlet.util.RequestDispatcher.AppParser;
-import app.socket.SocketManager;
-
-import com.google.gson.Gson;
-
-import engine.java.log.LogFactory.LOG;
+import app.storage.dao.CommonDAO;
+import app.storage.dao.db.AppUpgradeInfo;
+import engine.java.util.log.LogFactory.LOG;
 import engine.java.util.string.TextUtils;
 
 import org.json.JSONObject;
@@ -35,25 +33,25 @@ public class NavigationParser extends AppParser {
         String socket_server_url = SocketManager.getAddress();
         if (TextUtils.isEmpty(socket_server_url))
         {
-            throw new Exception("Socket服务器地址错误:address=" + socket_server_url);
+            throw new Exception("Socket服务器未启动");
         }
         
         JSONObject data = new JSONObject();
         data.put("socket_server_url", socket_server_url);
 
-        AppUpgradeInfo item = CommonDAO.getNewlyApp(device);
+        AppUpgradeInfo item = CommonDAO.getLastestApp(device);
         if (item != null)
         {
-            VersionInfo newlyVersionInfo = new VersionInfo();
-            if (!newlyVersionInfo.parse(item.version))
+            VersionInfo lastestVersionInfo = new VersionInfo();
+            if (!lastestVersionInfo.parse(item.version))
             {
-                throw new Exception("数据库信息错误:version=" + item.version);
+                throw new Exception("数据库信息错误:app.version=" + item.version);
             }
             
-            if (newlyVersionInfo.compareTo(versionInfo) > 0)
+            if (lastestVersionInfo.compareTo(versionInfo) > 0)
             {
                 // 应用有更新
-                data.put("upgrade", new JSONObject(new Gson().toJson(item.toProtocol())));
+                data.put("upgrade", new JSONObject(GsonUtil.toJson(item.toProtocol())));
             }
         }
         
