@@ -90,7 +90,7 @@ public class TokenManager {
             }
             else
             {
-                token = "yanhao";
+                token = "03BC46A4D28DEF08FBC81466C2BBC6B4";
                 
                 userMap.put(token, userInfo.getUid(), expiryTime);
                 Session.saveUser(token, userInfo, deviceID);

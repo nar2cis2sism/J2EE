@@ -4,6 +4,7 @@ import static app.storage.DAOManager.getDAO;
 import static app.storage.dao.script.AppUploadScript.uploadApp;
 import static app.storage.dao.script.FriendScript.addFriend;
 import static app.storage.dao.script.RegisterScript.register;
+import static app.storage.dao.script.RegisterScript.editUserInfo;
 import app.storage.dao.db.AppUpgradeInfo;
 import app.storage.dao.db.FriendReflog;
 import app.storage.dao.db.UserInfo;
@@ -30,12 +31,21 @@ public class DAOScript {
     
     private static void registerTest() {
         getDAO().createTable(UserInfo.class, true);
-        register("18311287987", "yanhao");
-        register("15012345678", "tanmengsi");
+        editUserInfo(register("18311287987", "yanhao"), "闫昊", null);
+        editUserInfo(register("15912790679", "tanmengsi"), "王晓庆", "一切都会好起来");
+        editUserInfo(register("15012345678", "tanmengsi"), "Jane", "加油哦");
+        editUserInfo(register("18311987987", "tanmengsi"), "范永利", null);
+        editUserInfo(register("15012395679", "tanmengsi"), "李冰涛", "fire in the hole");
+        editUserInfo(register("13972798679", "tanmengsi"), "*658了*", "分享图片");
+        editUserInfo(register("15912395679", "tanmengsi"), "Num2", "stranger");
+        editUserInfo(register("15972798679", "tanmengsi"), "于美珍", "");
+        editUserInfo(register("15912390679", "tanmengsi"), "陶生", "");
+        editUserInfo(register("15972790679", "tanmengsi"), "乌托邦", "");
+        editUserInfo(register("15012345679", "tanmengsi"), "Jess 杨姐", null);
     }
     
     private static void friendTest() {
         getDAO().createTable(FriendReflog.class, true);
-        addFriend(1, 2);
+        for (int i = 2; i <= 11; i++) addFriend(1, i);
     }
 }

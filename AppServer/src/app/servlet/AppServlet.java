@@ -12,7 +12,6 @@ import engine.java.util.CalendarFormat;
 import engine.java.util.io.IOUtil;
 import engine.java.util.log.LogFactory;
 import engine.java.util.log.LogFactory.LOG;
-import engine.java.util.string.TextUtils;
 
 import org.json.JSONObject;
 
@@ -82,13 +81,7 @@ public class AppServlet extends HttpServlet {
             LOG.log(request);
             
             JSONObject json = new JSONObject(request);
-            String action = json.getString("action");
-            if (TextUtils.isEmpty(action))
-            {
-                throw new NullPointerException("action=" + action);
-            }
-            
-            response = RequestDispatcher.dispatch(action, json);
+            response = RequestDispatcher.dispatch(json.getString("action"), json);
         } catch (Exception e) {
             LOG.log(e);
             response = GsonUtil.toJson(new ErrorInfo(400));
