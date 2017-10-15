@@ -28,7 +28,7 @@ public class HttpManager {
     
     private final ExecutorService httpThreadPool;
     
-    HttpManager() {
+    private HttpManager() {
         httpThreadPool = Executors.newCachedThreadPool(new MyThreadFactory("Http网络连接"));
     }
     

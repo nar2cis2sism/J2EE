@@ -13,12 +13,13 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>FileUploadServlet</servlet-name>
-  	<servlet-class>app.servlet.FileUploadServlet</servlet-class>
+  	<servlet-name>UploadServlet</servlet-name>
+  	<servlet-class>app.servlet.UploadServlet</servlet-class>
   	<load-on-startup>0</load-on-startup>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>FileUploadServlet</servlet-name>
+  	<servlet-name>UploadServlet</servlet-name>
   	<url-pattern>/fileUpload</url-pattern>
+  	<url-pattern>/upload</url-pattern>
   </servlet-mapping>
 </web-app>

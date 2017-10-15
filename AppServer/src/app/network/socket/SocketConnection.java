@@ -1,11 +1,11 @@
 package app.network.socket;
 
 import static app.network.socket.SocketManager.CRYPT_KEY;
-import static engine.java.util.log.LogFactory.LOG.log;
+import static engine.java.common.LogFactory.LOG.log;
 import app.bean.User;
-import app.servlet.util.GsonUtil;
 import app.servlet.util.Session;
 import app.servlet.util.TokenManager;
+import app.util.GsonUtil;
 import engine.java.util.io.IOUtil;
 import engine.java.util.secure.CRCUtility;
 import engine.java.util.secure.HexUtil;
@@ -31,7 +31,7 @@ public class SocketConnection implements Runnable {
     private InputStream in;                             // 数据输入流
     private OutputStream out;                           // 数据输出流
     
-    private final SocketWrite sw = new SocketWrite();
+    private final SocketWriter sw = new SocketWriter();
     
     private boolean isRunning;
     private int retry = 3;
@@ -60,7 +60,7 @@ public class SocketConnection implements Runnable {
         User user = Session.getUser(uid);
         if (user != null)
         {
-            user.closeSocketConnection();
+            user.setSocketConnection(null);
         }
     }
     
@@ -95,7 +95,7 @@ public class SocketConnection implements Runnable {
         out.write(0);
         
         uid = user.info.getUid();
-        user.buildSocketConnection(this);
+        user.setSocketConnection(this);
         parser = new SocketParser();
     }
     
@@ -154,7 +154,7 @@ public class SocketConnection implements Runnable {
         }
     }
     
-    private class SocketWrite implements Runnable {
+    private class SocketWriter implements Runnable {
         
         private final ConcurrentLinkedQueue<byte[]> conns             // 请求队列
         = new ConcurrentLinkedQueue<byte[]>();

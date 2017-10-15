@@ -1,11 +1,12 @@
 package app.network.http.parser;
 
 import app.network.socket.SocketManager;
-import app.servlet.util.GsonUtil;
+import app.servlet.AppConfig;
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.storage.dao.CommonDAO;
-import app.storage.dao.db.AppUpgradeInfo;
-import engine.java.util.log.LogFactory.LOG;
+import app.storage.db.AppUpgradeInfo;
+import app.util.GsonUtil;
+import engine.java.common.LogFactory.LOG;
 import engine.java.util.string.TextUtils;
 
 import org.json.JSONObject;
@@ -38,6 +39,8 @@ public class NavigationParser extends AppParser {
         
         JSONObject data = new JSONObject();
         data.put("socket_server_url", socket_server_url);
+        data.put("upload_server_url", AppConfig.UPLOAD_URL);
+        data.put("download_server_url", AppConfig.SERVER_URL);
 
         AppUpgradeInfo item = CommonDAO.getLastestApp(device);
         if (item != null)

@@ -1,24 +1,20 @@
 package app.storage.dao;
 
+import engine.java.dao.DAOTemplate.DAOExpression;
 import app.storage.DAOManager.BaseDAO;
-import app.storage.dao.db.AppUpgradeInfo;
-import engine.java.dao.DAOTemplate.DAOClause;
-import engine.java.dao.DAOTemplate.DAOClause.DAOParam;
-import engine.java.dao.DAOTemplate.DAOQueryBuilder;
-import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
+import app.storage.db.AppUpgradeInfo;
 
 public class CommonDAO extends BaseDAO {
     
     /**
      * 获取最新的App信息
+     * 
      * @param device 设备类型
      */
     public static AppUpgradeInfo getLastestApp(int device) {
-        DAOExpression whereClause = DAOExpression.create("device").equal(device);
-        
-        return getDAO().find(DAOQueryBuilder.create(AppUpgradeInfo.class)
-                .setWhereClause(whereClause)
-                .setOrderClause(DAOClause.create(new DAOParam("version")), true), 
-                AppUpgradeInfo.class);
+        return dao.find(AppUpgradeInfo.class)
+                .where(DAOExpression.create("device").equal(device))
+                .orderDesc("version")
+                .get();
     }
 }

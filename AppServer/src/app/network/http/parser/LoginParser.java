@@ -2,8 +2,9 @@ package app.network.http.parser;
 
 import app.servlet.util.RequestDispatcher.AppParser;
 import app.servlet.util.TokenManager;
+import app.storage.dao.FriendDAO;
 import app.storage.dao.UserDAO;
-import app.storage.dao.db.UserInfo;
+import app.storage.db.UserInfo;
 
 import org.json.JSONObject;
 
@@ -43,6 +44,7 @@ public class LoginParser extends AppParser {
         data.put("token", token);
         data.put("uid", item.getUid());
         data.put("user_info_ver", item.getVersion());
+        data.put("friend_list_timestamp", FriendDAO.getLatestReflogTime(item.getUid()));
         
         setSuccess(data);
     }

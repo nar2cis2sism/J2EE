@@ -1,8 +1,7 @@
 package app.storage;
 
 import engine.java.dao.DAOTemplate;
-import engine.java.dao.DAOTemplate.DAOQueryBuilder;
-import engine.java.dao.DAOTemplate.DAOSQLBuilder.DAOExpression;
+import engine.java.dao.DAOTemplate.DAOExpression;
 import engine.java.dao.db.DatabaseDriver;
 import engine.java.util.Singleton;
 
@@ -28,24 +27,19 @@ public final class DAOManager {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     
-    final DAOTemplate dao;
+    private final DAOTemplate dao;
     
-    DAOManager() {
+    private DAOManager() {
         dao = new DAOTemplate(DatabaseDriver.getMysqlDriver().createConnection(
                 HOST, DATABASE, USERNAME, PASSWORD));
     }
     
     public static class BaseDAO {
         
-        public static DAOTemplate getDAO() {
-            return DAOManager.getDAO();
-        }
-
+        protected static final DAOTemplate dao = getDAO();
+        
         public static <T> T findItemByProperty(Class<T> cls, String property, Object value) {
-            DAOExpression whereClause = DAOExpression.create(property).equal(value);
-            return getDAO().find(DAOQueryBuilder.create(cls)
-                    .setWhereClause(whereClause), 
-                    cls);
+            return dao.find(cls).where(DAOExpression.create(property).equal(value)).get();
         }
     }
 }

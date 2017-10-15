@@ -1,8 +1,8 @@
 package app.network.socket;
 
 import app.servlet.AppConfig;
+import engine.java.common.LogFactory.LOG;
 import engine.java.util.MyThreadFactory;
-import engine.java.util.log.LogFactory.LOG;
 import protocol.java.ProtocolWrapper;
 
 import java.net.InetAddress;
@@ -36,10 +36,6 @@ public class SocketManager implements Runnable {
             ProtocolWrapper.setEncryptSecret(key);
             instance = new SocketManager();
         }
-    }
-    
-    static final SocketManager getInstance() {
-        return instance;
     }
 
     /******************************* 华丽丽的分割线 *******************************/

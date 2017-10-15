@@ -1,7 +1,7 @@
 package app.servlet.util;
 
 import app.bean.User;
-import app.storage.dao.db.UserInfo;
+import app.storage.db.UserInfo;
 
 import java.util.HashMap;
 

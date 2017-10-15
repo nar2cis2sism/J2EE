@@ -1,7 +1,7 @@
 package app.bean;
 
 import app.network.socket.SocketConnection;
-import app.storage.dao.db.UserInfo;
+import app.storage.db.UserInfo;
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.ErrorInfo;
 
@@ -18,21 +18,13 @@ public class User {
     
     public SocketConnection conn;
     
-    public void buildSocketConnection(SocketConnection c) {
+    public void setSocketConnection(SocketConnection c) {
         if (conn != null)
         {
             conn.close();
         }
         
         conn = c;
-    }
-    
-    public void closeSocketConnection() {
-        if (conn != null)
-        {
-            conn.close();
-            conn = null;
-        }
     }
     
     public void invalidate() {
@@ -46,9 +38,6 @@ public class User {
     
     /**
      * 推送消息给用户
-     * @param cmd
-     * @param msgId
-     * @param data
      */
     public void push(int cmd, int msgId, ProtocolData data) {
         if (conn != null)

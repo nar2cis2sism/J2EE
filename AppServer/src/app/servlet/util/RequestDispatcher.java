@@ -1,7 +1,8 @@
 package app.servlet.util;
 
 import app.bean.User;
-import engine.java.util.log.LogFactory.LOG;
+import app.util.GsonUtil;
+import engine.java.common.LogFactory.LOG;
 
 import org.json.JSONObject;
 
@@ -88,7 +89,7 @@ public class RequestDispatcher {
         }
     }
     
-    public abstract static class TokenParser extends AppParser {
+    public static abstract class TokenParser extends AppParser {
 
         @Override
         public void parse(JSONObject json) throws Exception {

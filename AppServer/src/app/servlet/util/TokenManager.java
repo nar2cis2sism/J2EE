@@ -1,12 +1,12 @@
 package app.servlet.util;
 
 import app.bean.User;
-import app.servlet.AppServlet;
-import app.storage.dao.db.UserInfo;
+import app.servlet.AppConfig;
+import app.storage.db.UserInfo;
+import engine.java.common.LogFactory.LOG;
+import engine.java.common.LogFactory.LogUtil;
 import engine.java.util.KeyExpiryMap;
 import engine.java.util.Util;
-import engine.java.util.log.LogFactory.LOG;
-import engine.java.util.log.LogUtil;
 import engine.java.util.secure.CryptoUtil;
 import engine.java.util.secure.HexUtil;
 
@@ -28,8 +28,7 @@ public class TokenManager {
      */
     public static String generateToken(UserInfo userInfo, String deviceID)
             throws UnsupportedEncodingException {
-        if (AppServlet.isTest) return backdoor(userInfo, deviceID);
-        
+        if (AppConfig.IS_TESTING) return backdoor(userInfo, deviceID);
         return _generateToken(userInfo, deviceID);
     }
     
@@ -56,6 +55,7 @@ public class TokenManager {
     
     /**
      * Token认证
+     * 
      * @return 用户信息
      */
     public static User authenticate(String token) {
