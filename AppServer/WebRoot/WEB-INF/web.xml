@@ -4,7 +4,7 @@
   
   <servlet>
   	<servlet-name>AppServlet</servlet-name>
-  	<servlet-class>app.servlet.AppServlet</servlet-class>
+  	<servlet-class>com.project.app.servlet.AppServlet</servlet-class>
   	<load-on-startup>0</load-on-startup>
   </servlet>
   <servlet-mapping>
@@ -14,7 +14,7 @@
   
   <servlet>
   	<servlet-name>UploadServlet</servlet-name>
-  	<servlet-class>app.servlet.UploadServlet</servlet-class>
+  	<servlet-class>com.project.app.servlet.UploadServlet</servlet-class>
   	<load-on-startup>0</load-on-startup>
   </servlet>
   <servlet-mapping>
