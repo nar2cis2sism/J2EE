@@ -1,0 +1,25 @@
+body {
+    background:url(../img/login_bg.jpg) #f8f6e9;
+}
+
+.mycenter mysign{
+    width: 440px;
+}
+.mycenter input,checkbox,button{
+    margin-top:2%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.mycheckbox{
+    margin-top:10px;
+    margin-left: 40px;
+    margin-bottom: 10px;
+    height: 10px;
+}
+.text_title{
+	color:#fff;
+}
+.alert_align{
+	margin-left:20px;
+}
+

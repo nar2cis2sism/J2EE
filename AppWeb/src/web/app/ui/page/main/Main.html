@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>通讯录点餐系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
+  </head>
+  
+  <body>
+	
+	<div class="mycenter">
+		<div class="row">
+			<div class="welcome">欢迎，亲耐滴<span wicket:id="user.name"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="menu">看看菜单</a>&nbsp;&nbsp;&nbsp;&nbsp;<a wicket:id="logout">退出</a><a class="refresh" wicket:id="refresh">刷新</a></div>
+		</div>
+		<div class="row transparent">
+			<table class="table">
+      	  		<caption class="tabletitle" wicket:id="date">2017-11-13</caption>
+      	  		<div wicket:id="order_container">
+				  <thead>
+				    <tr>
+				      <th>名称</th>
+				      <th>点餐</th>
+				      <th>价格</th>
+				      <th>备注</th>
+				      <th>支付状态</th>
+				      <th>操作</th>
+				    </tr>
+				  </thead>
+		      	  <tbody>
+		      	    <tr wicket:id="order_list">
+		      	      <td wicket:id="username">闫昊</td>
+		      	      <td wicket:id="foodname">葱花煎蛋</td>
+		      	      <td wicket:id="price">10</td>
+		      	      <td class="overflow"><a wicket:id="remark">编辑</a></td>
+		      	      <td><a wicket:id="pay">未支付</a></td>
+		      	      <td><a wicket:id="cancel">取消</a></td>
+		      	    </tr>
+		      	    <tr>
+		      	      <td colspan="6" wicket:id="consume">总数：1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总价：10元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人均：10.0元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次最壕：闫昊&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消费了11元</td>
+		      	    </tr>
+		      	  </tbody>
+		      	</div>
+			</table>
+			<p class="text-center"><h4>订餐热线：28895919</h4>
+			</p>
+			<hr>
+	      	<p class="important_tips">距离下班还剩：<span wicket:id="timer_off">--天--时--分--秒</span></p>
+	      	<p class="important_tips">距离领薪还剩：<span wicket:id="timer_salary">--天--时--分--秒</span></p>
+	      	<p class="important_tips">距离元旦还剩：<span wicket:id="timer_holiday">--天--时--分--秒</span></p>
+			<ul class="pagination">
+				<li wicket:id="page_indicator"><a wicket:id="page_number" /></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div wicket:id="modal_remark"></div>
+	<div wicket:id="modal_pay"></div>
+	<div wicket:id="modal_cancel"></div>
+	
+  </body>
+</html>

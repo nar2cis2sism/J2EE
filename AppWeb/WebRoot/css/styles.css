@@ -1,0 +1,59 @@
+.mycenter{
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    width:600px;
+}
+
+a{
+	color:#90d7ec;
+}
+a:focus, a:hover {
+color: #fff;
+text-decoration: underline;
+}
+
+
+.pagination {
+	padding-left:10px;
+}
+.pagination li a{
+	color:#fff;
+	background:rgba(0,0,0,0.2);	
+}
+
+.pagination>li>span:focus, .pagination>li>span:hover {
+	background-color: #fff;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+	background-color: #eee;
+	border-color: #fff;
+	color:#337ab7;
+}
+
+.welcome{
+	margin-bottom:10px;
+	background:rgba(0,0,0,0.4);
+	padding:10px;
+}
+
+.transparent 
+{
+background:rgba(0,0,0,0.4);
+}
+
+.overflow{
+white-space: nowrap;/*控制单行显示*/
+overflow: hidden;/*超出隐藏*/
+text-overflow: ellipsis;/*隐藏的字符用省略号表示*/
+}
+
+.div_holiday{
+	text-align:center;
+	margin-top:10px;
+	margin-bottom:-60px;
+}
+.div_holiday img{
+	width:630px;
+}

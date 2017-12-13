@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <wicket:head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
+  </wicket:head>
+  
+  <wicket:panel>
+	
+	<!-- 模态框（Modal） -->
+	<div class="modal fade dialog" tabindex="-1" role="dialog" aria-hidden="true" wicket:id="modal">
+	    <div class="modal-dialog">
+	        <form class="modal-content" wicket:id="form">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" wicket:id="title" />
+	            </div>
+	            <div class="modal-body">
+	            	<div wicket:id="message"></div>
+	            	<wicket:child />
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" wicket:id="ok">确定</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+    
+  </wicket:panel>
+</html>

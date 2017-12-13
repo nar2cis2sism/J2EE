@@ -1,0 +1,35 @@
+body {
+    background:url(../img/login_bg.jpg) #fff;
+    color:#fff;
+}
+
+.mycenter{
+    margin-top: 80px;
+}
+
+.tabletitle{
+	color:#fff;
+	padding-left:10px;
+}
+
+h4{
+	padding-left:10px;
+}
+
+.table_overflow{
+	table-layout: fixed;
+}
+
+.refresh{
+	float:right;
+}
+.ispay_status{
+	color:#00EC00;
+}
+.isnotpay_status{
+	font-weight:bold;
+	color:#FF0000;
+}
+.important_tips{
+	padding-left:10px;
+}
