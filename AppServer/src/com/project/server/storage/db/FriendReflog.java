@@ -20,15 +20,11 @@ public class FriendReflog {
     public long friend_id;                  // 好友ID
     
     /**
-     * 1：增加
-     * 2：删除
-     * 3：更新
+     * 0：加为好友
+     * 1：删除好友
      */
     @DAOProperty
-    public int op;                          // 操作指令
-
-    @DAOProperty
-    public String remark;                   // 好友备注
+    public int action;                      // 操作指令
 
     @DAOProperty
     public long time;                       // 记录时间

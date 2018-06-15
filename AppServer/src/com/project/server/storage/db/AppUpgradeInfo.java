@@ -1,5 +1,7 @@
 package com.project.server.storage.db;
 
+import com.project.app.AppConfig;
+
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
@@ -27,7 +29,7 @@ public class AppUpgradeInfo {
     public String version;                  // 客户端版本号
 
     @DAOProperty
-    public String url;                      // 升级包下载地址
+    public String url;                      // 升级包下载地址（相对路径）
 
     @DAOProperty(column="description")
     public String desc;                     // 升级描述
@@ -48,7 +50,7 @@ public class AppUpgradeInfo {
         item.type = type;
         item.name = name;
         item.version = version;
-        item.url = url;
+        item.url = AppConfig.SERVER_URL + url;
         item.desc = desc;
         return item;
     }

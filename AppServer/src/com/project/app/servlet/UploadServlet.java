@@ -1,5 +1,16 @@
 package com.project.app.servlet;
 
+import com.project.app.AppConfig;
+import com.project.app.bean.User;
+import com.project.app.util.TokenManager;
+
+import engine.java.http.HttpConnector;
+import engine.java.http.HttpRequest.ByteArrayEntity;
+import engine.java.http.HttpResponse;
+import engine.java.util.common.TextUtils;
+import engine.java.util.file.FileManager;
+import engine.java.util.file.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -9,17 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.project.app.bean.User;
-import com.project.app.util.TokenManager;
-import com.project.server.ServerConfig;
-
-import engine.java.http.HttpConnector;
-import engine.java.http.HttpRequest.ByteArrayEntity;
-import engine.java.http.HttpResponse;
-import engine.java.util.file.FileManager;
-import engine.java.util.file.FileUtils;
-import engine.java.util.string.TextUtils;
-
 /**
  * 文件上传处理器
  */
@@ -28,8 +28,8 @@ public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-            IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         doPost(req, resp);
     }
     
@@ -81,7 +81,7 @@ public class UploadServlet extends HttpServlet {
      */
     public static boolean uploadFile(File srcFile, String desPath) {
         try {
-            HttpResponse response = new HttpConnector(ServerConfig.SERVER_URL + "fileUpload?path=" + desPath, 
+            HttpResponse response = new HttpConnector(AppConfig.SERVER_URL + "fileUpload?path=" + desPath, 
                     new ByteArrayEntity(FileManager.readFile(srcFile)))
             .setName("文件上传")
             .connect();

@@ -14,7 +14,7 @@ public class CommonDAO extends BaseDAO {
      */
     public static AppUpgradeInfo getLastestApp(int device) {
         return dao.find(AppUpgradeInfo.class)
-                .where(DAOExpression.create("device").equal(device))
+                .where(DAOExpression.create("device").eq(device))
                 .orderDesc("version")
                 .get();
     }

@@ -1,7 +1,7 @@
 package com.project.server.network.socket;
 
 import static com.project.server.network.socket.SocketManager.CRYPT_KEY;
-import static engine.java.common.LogFactory.LOG.log;
+import static engine.java.util.log.LogFactory.LOG.log;
 
 import com.project.app.bean.User;
 import com.project.app.util.TokenManager;
@@ -9,7 +9,7 @@ import com.project.app.util.UserManager;
 import com.project.util.GsonUtil;
 
 import engine.java.util.io.IOUtil;
-import engine.java.util.secure.CRCUtility;
+import engine.java.util.secure.CRCUtil;
 import engine.java.util.secure.HexUtil;
 import engine.java.util.secure.Obfuscate;
 import protocol.java.ProtocolWrapper;
@@ -48,6 +48,7 @@ public class SocketConnection implements Runnable {
     public void run() {
         try {
             handshake(in = socket.getInputStream(), out = socket.getOutputStream());
+            log("握手成功", "uid=" + uid);
         } catch (Throwable e) {
             log("握手失败", e);
             close();
@@ -85,7 +86,7 @@ public class SocketConnection implements Runnable {
             throw new Exception("Token认证失败");
         }
         
-        if (crc != (CRCUtility.calculate(CRYPT_KEY, CRYPT_KEY.length) & 0xFF))
+        if (crc != (CRCUtil.calculate(CRYPT_KEY, CRYPT_KEY.length) & 0xFF))
         {
 
             out.write(-2);

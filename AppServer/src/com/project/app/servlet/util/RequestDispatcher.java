@@ -1,12 +1,12 @@
 package com.project.app.servlet.util;
 
-import engine.java.common.LogFactory.LOG;
-
-import org.json.JSONObject;
-
 import com.project.app.bean.User;
 import com.project.app.util.TokenManager;
 import com.project.util.GsonUtil;
+
+import engine.java.util.log.LogFactory.LOG;
+
+import org.json.JSONObject;
 
 import protocol.java.json.ErrorInfo;
 

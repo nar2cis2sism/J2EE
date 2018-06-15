@@ -1,16 +1,16 @@
 package com.project.app.action.http;
 
-import org.json.JSONObject;
-
+import com.project.app.AppConfig;
 import com.project.app.servlet.util.RequestDispatcher.AppParser;
-import com.project.server.ServerConfig;
 import com.project.server.network.socket.SocketManager;
 import com.project.server.storage.dao.CommonDAO;
 import com.project.server.storage.db.AppUpgradeInfo;
 import com.project.util.GsonUtil;
 
-import engine.java.common.LogFactory.LOG;
-import engine.java.util.string.TextUtils;
+import engine.java.util.common.TextUtils;
+import engine.java.util.log.LogFactory.LOG;
+
+import org.json.JSONObject;
 
 public class Navigation extends AppParser {
 
@@ -40,8 +40,8 @@ public class Navigation extends AppParser {
         
         JSONObject data = new JSONObject();
         data.put("socket_server_url", socket_server_url);
-        data.put("upload_server_url", ServerConfig.UPLOAD_URL);
-        data.put("download_server_url", ServerConfig.SERVER_URL);
+        data.put("upload_server_url", AppConfig.UPLOAD_URL);
+        data.put("download_server_url", AppConfig.SERVER_URL);
 
         AppUpgradeInfo item = CommonDAO.getLastestApp(device);
         if (item != null)

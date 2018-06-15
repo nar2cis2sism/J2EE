@@ -1,16 +1,16 @@
 package com.project.server.storage.dao;
 
-import static engine.java.common.MyValidator.validate;
-
-import java.util.Collection;
+import static engine.java.util.common.MyValidator.validate;
 
 import com.project.server.storage.DAOManager.BaseDAO;
 import com.project.server.storage.db.UserInfo;
 
-import engine.java.common.MyValidator;
 import engine.java.dao.DAOTemplate.DAOExpression;
 import engine.java.dao.DAOTemplate.DAOParam;
-import engine.java.dao.Page;
+import engine.java.dao.util.Page;
+import engine.java.util.common.MyValidator;
+
+import java.util.Collection;
 
 public class UserDAO extends BaseDAO {
     
@@ -53,12 +53,12 @@ public class UserDAO extends BaseDAO {
         if (validate(key, MyValidator.EMAIL_ADDRESS))
         {
             // 邮箱不区分大小写
-            where = where.or(new DAOParam("register_email").lower()).equal(key.toLowerCase());
+            where = where.or(new DAOParam("register_email").lower()).eq(key.toLowerCase());
         }
         else if (validate(key, MyValidator.MOBILE_NUMBER))
         {
             // 手机号精确查找
-            where = where.or("mobile_number").equal(key);
+            where = where.or("mobile_number").eq(key);
         }
         
         return where;

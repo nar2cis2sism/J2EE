@@ -5,6 +5,9 @@ import java.util.HashMap;
 import com.project.app.bean.User;
 import com.project.server.storage.db.UserInfo;
 
+/**
+ * 用户管理器
+ */
 public final class UserManager {
     
     private static final HashMap<Long, User> userMap

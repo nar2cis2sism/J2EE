@@ -1,7 +1,7 @@
 package com.project.server.network.socket;
 
-import engine.java.common.LogFactory.LOG;
 import engine.java.util.extra.ReflectObject;
+import engine.java.util.log.LogFactory.LOG;
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class SocketDispatcher {
     
     private static final HashMap<Integer, Class<? extends SocketParser<? extends ProtocolData>>> dispatcherMap
-    = new HashMap<>();
+    = new HashMap<Integer, Class<? extends SocketParser<? extends ProtocolData>>>();
     
     /**
      * 需要提前注册信令处理器

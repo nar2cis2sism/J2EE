@@ -55,7 +55,7 @@ public class UserInfo {
     public boolean isAuthenticated;         // 实名认证
 
     @DAOProperty
-    public long version;                    // 用户信息的版本号
+    public long version;                    // 用户信息版本号
 
     @DAOProperty
     public String avatar_url;               // 头像下载地址
@@ -80,7 +80,7 @@ public class UserInfo {
     /**
      * 包含“用户信息版本”和“头像版本”，用“:”分隔
      */
-    public String getVersion() {
+    public String combineVersion() {
         return version + ":" + avatar_ver;
     }
 

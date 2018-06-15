@@ -2,7 +2,9 @@ package com.project.server.script.dao;
 
 import static com.project.server.storage.DAOManager.getDAO;
 
+import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.FriendReflog;
+import com.project.server.storage.db.UserInfo;
 
 import engine.java.dao.DAOTemplate.DAOExpression;
 
@@ -11,25 +13,27 @@ public class FriendScript {
     /**
      * 添加好友
      */
-    public static void addFriend(long uid, long friend_id) {
-        FriendReflog log = getDAO().find(FriendReflog.class)
-                .where(DAOExpression.create("user_id").equal(uid)
-                .and("friend_id").equal(friend_id))
-                .get();
-        if (log != null)
-        {
-            System.out.println(String.format("好友%d已存在", friend_id));
-            return;
-        }
+    public static void addFriend(String me, String friend) {
+        UserInfo me_info = UserDAO.getUserByUsername(me);
+        UserInfo friend_info = UserDAO.getUserByUsername(friend);
         
-        log = new FriendReflog();
-        log.user_id = uid;
-        log.friend_id = friend_id;
-        log.op = 1;
-        log.time = System.currentTimeMillis();
-        if (!getDAO().save(log))
+        FriendReflog log = getDAO().find(FriendReflog.class)
+                .where(DAOExpression.create("user_id").eq(me_info.getUid())
+                .and("friend_id").eq(friend_info.getUid()))
+                .get();
+        boolean hasLog = log != null;
+        if (!hasLog)
         {
-            System.out.println(String.format("添加好友%d失败", friend_id));
+            log = new FriendReflog();
+            log.user_id = me_info.getUid();
+            log.friend_id = friend_info.getUid();
+        }
+
+        log.action = 0;
+        log.time = System.currentTimeMillis();
+        if (hasLog && !getDAO().update(log, "action", "time") || !getDAO().save(log))
+        {
+            System.out.println(String.format("%s添加好友%s失败", me, friend));
         }
     }
 }

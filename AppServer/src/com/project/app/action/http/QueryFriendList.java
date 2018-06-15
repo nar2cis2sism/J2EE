@@ -1,74 +1,108 @@
 package com.project.app.action.http;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import protocol.java.json.FriendOp;
-
 import com.project.app.bean.User;
 import com.project.app.servlet.util.RequestDispatcher.TokenParser;
-import com.project.server.storage.dao.FriendDAO;
+import com.project.server.storage.DAOManager;
 import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.FriendReflog;
 import com.project.server.storage.db.UserInfo;
 import com.project.util.GsonUtil;
 
+import engine.java.dao.DAOTemplate.DAOExpression;
+import engine.java.dao.DAOTemplate.DAOQueryBuilder;
+import engine.java.dao.util.Page;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import protocol.java.json.FriendSync;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class QueryFriendList extends TokenParser {
+    
+    private static final int SYNC_COUNT = 200;
+    
+    private int sync_type;
+    private int sync_status;
     
     @Override
     public void parse(JSONObject json, User user) throws Exception {
         long timestamp = json.optLong("timestamp");
         
-        Collection<FriendReflog> collection = FriendDAO.getLatestReflogs(user.info.getUid(), timestamp);
-        if (collection == null || collection.isEmpty())
+        List<FriendReflog> logs = getLatestReflogs(user.info.getUid(), timestamp);
+        if (logs == null || logs.isEmpty())
         {
             setSuccess(null);
         }
         else
         {
-            FriendReflog[] friends = collection.toArray(new FriendReflog[collection.size()]);
-            
             JSONObject data = new JSONObject();
-            data.put("timestamp", friends[0].time);
-            data.put("sync_type", timestamp == 0 ? 0 : 1);
-            data.put("sync_status", 0);
-            data.put("list", new JSONArray(GsonUtil.toJson(toProtocol(friends))));
+            data.put("timestamp", logs.get(logs.size() - 1).time);
+            data.put("sync_type", sync_type);
+            data.put("sync_status", sync_status);
+            data.put("list", new JSONArray(GsonUtil.toJson(toProtocol(logs))));
             setSuccess(data);
         }
     }
     
-    private List<FriendOp> toProtocol(FriendReflog[] friends) {
-        List<FriendOp> list = new ArrayList<>(friends.length);
-        for (FriendReflog friend : friends)
+    /**
+     * 筛选出最新的操作记录
+     * 
+     * @param uid 用户ID
+     * @param timestamp 上次更新的时间戳
+     */
+    private List<FriendReflog> getLatestReflogs(long uid, long timestamp) {
+        DAOExpression where = DAOExpression.create("user_id").eq(uid);
+        if (timestamp == 0)
         {
-            FriendOp op = new FriendOp();
-            op.uid = friend.friend_id;
-            if ((op.op = friend.op - 1) == 2)
+            // 全量操作记录
+            where = where.and("action").not().eq(1);
+        }
+        else
+        {
+            // 增量操作记录
+            where = where.and("time").greaterThan(timestamp);
+            sync_type = 1;
+        }
+        
+        DAOQueryBuilder<FriendReflog> builder = DAOManager.getDAO().find(FriendReflog.class).where(where).orderBy("time");
+        if (builder.getCount() > SYNC_COUNT)
+        {
+            // 分批进行处理
+            builder.usePage(new Page(SYNC_COUNT, Integer.MAX_VALUE));
+            sync_status = 1;
+        }
+        
+        return builder.getAll();
+    }
+    
+    private static List<FriendSync> toProtocol(List<FriendReflog> logs) {
+        List<FriendSync> list = new ArrayList<FriendSync>(logs.size());
+        for (FriendReflog log : logs)
+        {
+            UserInfo user = UserDAO.getUserById(log.friend_id);
+            if (user == null)
+            {
+                // 用户不存在
+                continue;
+            }
+            
+            FriendSync item = new FriendSync();
+            item.account = user.username;
+            if ((item.action = log.action) == 1)
             {
                 // 删除好友
             }
             else
             {
-
-                UserInfo userInfo = UserDAO.getUserById(op.uid);
-                if (userInfo == null)
-                {
-                    // 用户不存在
-                    continue;
-                }
-                
-                op.remark = friend.remark;
-                op.nickname = userInfo.nickname;
-                op.signature = userInfo.signature;
-                op.avatar_url = userInfo.avatar_url;
-                op.friend_info_ver = userInfo.getVersion();
+                item.nickname = user.nickname;
+                item.signature = user.signature;
+                item.avatar_url = user.avatar_url;
             }
             
-            list.add(op);
+            list.add(item);
         }
         
         return list;

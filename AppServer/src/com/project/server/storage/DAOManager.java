@@ -6,6 +6,13 @@ import engine.java.dao.db.DatabaseDriver;
 import engine.java.util.extra.Singleton;
 
 public final class DAOManager {
+
+    /******************************* 数据库配置 *******************************/
+    
+    private static final String HOST = "localhost";
+    private static final String DATABASE = "app";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "root";
     
     private static final Singleton<DAOManager> instance
     = new Singleton<DAOManager>() {
@@ -22,11 +29,6 @@ public final class DAOManager {
 
     /******************************* 华丽丽的分割线 *******************************/
     
-    private static final String HOST = "localhost";
-    private static final String DATABASE = "app";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-    
     private final DAOTemplate dao;
     
     private DAOManager() {
@@ -39,7 +41,7 @@ public final class DAOManager {
         protected static final DAOTemplate dao = getDAO();
         
         public static <T> T findItemByProperty(Class<T> cls, String property, Object value) {
-            return dao.find(cls).where(DAOExpression.create(property).equal(value)).get();
+            return dao.find(cls).where(DAOExpression.create(property).eq(value)).get();
         }
     }
 }

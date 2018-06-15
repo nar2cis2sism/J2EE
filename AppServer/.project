@@ -45,14 +45,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src_JavaEngine</name>
+			<name>JavaEngine</name>
 			<type>2</type>
-			<location>D:/Work/Java/Github/Java/JavaEngine/src</location>
-		</link>
-		<link>
-			<name>src_JavaProtocol</name>
-			<type>2</type>
-			<location>D:/Work/Java/Github/Java/JavaProtocol/src</location>
+			<location>D:/Project/Github/Java/JavaEngine/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
