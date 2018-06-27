@@ -1,6 +1,5 @@
 package com.project.server.network.socket;
 
-import static com.project.server.network.socket.SocketManager.CRYPT_KEY;
 import static engine.java.util.log.LogFactory.LOG.log;
 
 import com.project.app.bean.User;
@@ -25,7 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SocketConnection implements Runnable {
+public class SocketConnection implements SocketParam, Runnable {
     
     private static final ExecutorService writeThreadPool = Executors.newCachedThreadPool();
     
@@ -98,6 +97,7 @@ public class SocketConnection implements Runnable {
         
         uid = user.info.getUid();
         user.setSocketConnection(this);
+        SocketTimeOut.getInstance().active(uid);
     }
     
     private boolean recv() {
@@ -110,6 +110,7 @@ public class SocketConnection implements Runnable {
                     throw new IOException("read bytes is -1.");
                 }
 
+                SocketTimeOut.getInstance().active(uid);
                 log("收到socket信令包-" + uid, entity);
                 entity.parseBody();
                 receive(entity.getCmd(), entity.getMsgId(), entity.getData());
@@ -137,7 +138,7 @@ public class SocketConnection implements Runnable {
 
     private void receive(int cmd, int msgId, ProtocolData data) {
         log("收到socket信令包-" + uid, data.getClass().getSimpleName() + GsonUtil.toJson(data));
-        ProtocolData[] ack = SocketDispatcher.dispatch(cmd, data);
+        ProtocolData[] ack = SocketDispatcher.dispatch(cmd, data, UserManager.getUser(uid));
         if (ack != null)
         {
             for (ProtocolData d : ack)

@@ -7,10 +7,11 @@ import com.project.app.action.http.GetUserInfo;
 import com.project.app.action.http.Login;
 import com.project.app.action.http.Navigation;
 import com.project.app.action.http.QueryFriendList;
-import com.project.app.action.socket.Message;
+import com.project.app.action.socket.MessageParser;
 import com.project.server.network.socket.SocketDispatcher.SocketParser;
 
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
+import protocol.java.stream.req.Message;
 
 public class ActionRegister {
 	
@@ -40,7 +41,7 @@ public class ActionRegister {
 	
 	private static void initSocketAction() {
 	    // 聊天消息
-	    registerSocketAction(protocol.java.stream.req.Message.class, Message.class);
+	    registerSocketAction(Message.class, MessageParser.class);
 	}
 	
 	private static <D extends ProtocolData, P extends SocketParser<D>> void registerSocketAction(Class<D> d, Class<P> p) {

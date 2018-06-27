@@ -6,9 +6,9 @@ import com.project.app.bean.User;
 import com.project.server.storage.db.UserInfo;
 
 /**
- * 用户管理器
+ * 在线用户管理器
  */
-public final class UserManager {
+public class UserManager {
     
     private static final HashMap<Long, User> userMap
     = new HashMap<Long, User>();                                    // 用户查询表

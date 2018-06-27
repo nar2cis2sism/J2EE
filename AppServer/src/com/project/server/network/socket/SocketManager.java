@@ -1,6 +1,6 @@
 package com.project.server.network.socket;
 
-import com.project.app.AppConfig;
+import com.project.server.ServerConfig;
 
 import engine.java.util.extra.MyThreadFactory;
 import engine.java.util.log.LogFactory.LOG;
@@ -12,12 +12,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SocketManager implements Runnable {
-    
-    private static final int PORT = 10236;                              // 监听端口号
-    
-    static final byte[] CRYPT_KEY
-    = {0x21, 0x45, (byte) 0x83, 0x39, 0x46, 0x75, (byte) 0x88, 0x11};   // 数据加解密密钥
+public class SocketManager implements SocketParam, Runnable {
     
     private static SocketManager instance;
     
@@ -26,7 +21,7 @@ public class SocketManager implements Runnable {
     /**
      * 启动socket服务器
      */
-    public static synchronized void setup() {
+    public static void setup() {
         if (instance == null)
         {
             byte[] key = new byte[16];
@@ -66,7 +61,7 @@ public class SocketManager implements Runnable {
             try {
                 serverSocket = new ServerSocket();
                 serverSocket.setReuseAddress(true);
-                serverSocket.bind(new InetSocketAddress(AppConfig.SERVER_IP, PORT));
+                serverSocket.bind(new InetSocketAddress(ServerConfig.SERVER_IP, PORT));
                 setAddress(serverSocket);
                 while (true)
                 {
@@ -93,4 +88,15 @@ public class SocketManager implements Runnable {
     public static String getAddress() {
         return address;
     }
+}
+
+interface SocketParam {
+    
+    long TIMEOUT = 4 * 60 * 1000;                   // 连接超时断开（4分钟）
+    
+    byte[] CRYPT_KEY                                // 数据加解密密钥
+    = {0x21, 0x45, (byte) 0x83, 0x39,
+       0x46, 0x75, (byte) 0x88, 0x11};
+    
+    int PORT = 10236;                               // 监听端口号
 }

@@ -8,17 +8,20 @@ import com.project.server.storage.db.UserInfo;
 
 import protocol.java.stream.ErrorInfo;
 import protocol.java.stream.ack.MessageACK;
+import protocol.java.stream.req.Message;
 import protocol.java.stream.req.Message.MessageBody;
 
-public class Message extends SocketParser<protocol.java.stream.req.Message> {
+public class MessageParser extends SocketParser<Message> {
 
     @Override
-    public void parse(protocol.java.stream.req.Message msg) throws Exception {
+    public void parse(Message msg, User user) throws Exception {
         UserInfo info = UserDAO.getUserByUsername(msg.to);
         if (info != null)
         {
             fixMessage(msg);
-            User user = UserManager.getUser(info.getUid());
+            msg.from = user.info.username;
+            
+            user = UserManager.getUser(info.getUid());
             if (user != null)
             {
                 // 用户在线
@@ -36,7 +39,7 @@ public class Message extends SocketParser<protocol.java.stream.req.Message> {
         }
     }
     
-    private void fixMessage(protocol.java.stream.req.Message msg) {
+    private void fixMessage(Message msg) {
         // 透传消息，重新设置时间
         MessageBody[] body = msg.body;
         if (body != null)

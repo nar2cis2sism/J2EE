@@ -35,22 +35,14 @@ public class AppServlet extends HttpServlet {
     @Override
 	public void init() throws ServletException {
 		initLog();
-		registerAction();
-		setupSocket();
+		ActionRegister.init();
+		SocketManager.setup();
 	}
 	
 	private void initLog() {
 		LogFactory.init(new File(getServletContext().getRealPath("logs"), 
 				CalendarFormat.format(Calendar.getInstance(), "yyyyMMdd_HHmmss")));
 		LogFactory.enableLOG(!AppConfig.IS_TESTING);
-	}
-	
-	private void registerAction() {
-		ActionRegister.init();
-	}
-	
-	private void setupSocket() {
-	    SocketManager.setup();
 	}
 	
 	@Override

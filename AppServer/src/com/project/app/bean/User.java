@@ -17,7 +17,7 @@ public class User {
     
     public String deviceID;
     
-    public SocketConnection conn;
+    private SocketConnection conn;
     
     public void setSocketConnection(SocketConnection c) {
         if (conn != null)

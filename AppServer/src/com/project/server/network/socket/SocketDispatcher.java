@@ -1,5 +1,7 @@
 package com.project.server.network.socket;
 
+import com.project.app.bean.User;
+
 import engine.java.util.extra.ReflectObject;
 import engine.java.util.log.LogFactory.LOG;
 import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
@@ -31,7 +33,7 @@ public class SocketDispatcher {
      * @param data 请求数据
      * @return 应答数据
      */
-	public static ProtocolData[] dispatch(int cmd, ProtocolData data) {
+	public static ProtocolData[] dispatch(int cmd, ProtocolData data, User user) {
         try {
             Class<? extends SocketParser<? extends ProtocolData>> cls = dispatcherMap.get(cmd);
             if (cls == null)
@@ -41,7 +43,7 @@ public class SocketDispatcher {
             
             SocketParser<? extends ProtocolData> parser = cls.newInstance();
             ReflectObject ref = new ReflectObject(parser);
-            ref.invoke(ref.getMethod("parse", ProtocolData.class), data);
+            ref.invoke(ref.getMethod("parse", ProtocolData.class, User.class), data, user);
             return parser.ack;
         } catch (Exception e) {
             LOG.log(e);
@@ -54,7 +56,7 @@ public class SocketDispatcher {
         
     	ProtocolData[] ack;
         
-        public abstract void parse(T data) throws Exception;
+        public abstract void parse(T data, User user) throws Exception;
         
         protected final void setAck(ProtocolData... ack) {
             this.ack = ack;
