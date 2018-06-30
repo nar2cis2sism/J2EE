@@ -53,9 +53,9 @@ public class SocketConnection implements SocketParam, Runnable {
             close();
             return;
         }
-        
-        isRunning = true;
-        for (;recv(););
+
+        SocketListener.onConnected(uid);
+        for (isRunning = true;recv(););
         
         // 循环退出后关闭连接
         User user = UserManager.getUser(uid);
@@ -97,7 +97,6 @@ public class SocketConnection implements SocketParam, Runnable {
         
         uid = user.info.getUid();
         user.setSocketConnection(this);
-        SocketTimeOut.getInstance().active(uid);
     }
     
     private boolean recv() {
@@ -110,7 +109,7 @@ public class SocketConnection implements SocketParam, Runnable {
                     throw new IOException("read bytes is -1.");
                 }
 
-                SocketTimeOut.getInstance().active(uid);
+                SocketListener.onReceive(uid);
                 log("收到socket信令包-" + uid, entity);
                 entity.parseBody();
                 receive(entity.getCmd(), entity.getMsgId(), entity.getData());
@@ -188,7 +187,7 @@ public class SocketConnection implements SocketParam, Runnable {
         public void run() {
             send();
             isRunning.set(false);
-            if (!conns.isEmpty())
+            if (!conns.isEmpty() && !socket.isClosed())
             {
                 start();
             }

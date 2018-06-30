@@ -14,14 +14,14 @@ import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
 import protocol.java.stream.req.Message;
 
 public class ActionRegister {
-	
-	public static void init() {
-	    initHttpAction();
-	    initSocketAction();
-	}
-	
-	private static void initHttpAction() {
-	    // 获取导航配置
+    
+    public static void init() {
+        initHttpAction();
+        initSocketAction();
+    }
+    
+    private static void initHttpAction() {
+        // 获取导航配置
         register("navigation", Navigation.class);
         // 用户登录
         register("login", Login.class);
@@ -37,14 +37,14 @@ public class ActionRegister {
 //        register("search_contact", SearchContact.class);
 //        // 添加删除好友
 //        register("add_friend", AddFriend.class);
-	}
-	
-	private static void initSocketAction() {
-	    // 聊天消息
-	    registerSocketAction(Message.class, MessageParser.class);
-	}
-	
-	private static <D extends ProtocolData, P extends SocketParser<D>> void registerSocketAction(Class<D> d, Class<P> p) {
-	    register(d.getName().hashCode(), p);
-	}
+    }
+    
+    private static void initSocketAction() {
+        // 聊天消息
+        registerSocketAction(Message.class, MessageParser.class);
+    }
+    
+    private static <D extends ProtocolData, P extends SocketParser<D>> void registerSocketAction(Class<D> d, Class<P> p) {
+        register(d.getName().hashCode(), p);
+    }
 }

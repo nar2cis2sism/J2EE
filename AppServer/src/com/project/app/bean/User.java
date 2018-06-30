@@ -11,13 +11,19 @@ import protocol.java.stream.ErrorInfo;
  */
 public class User {
     
-    public String token;
+    public final String token;
     
-    public UserInfo info;
+    public final UserInfo info;
     
-    public String deviceID;
+    public final String deviceID;
     
     private SocketConnection conn;
+    
+    public User(String token, UserInfo userInfo, String deviceID) {
+        this.token = token;
+        this.info = userInfo;
+        this.deviceID = deviceID;
+    }
     
     public void setSocketConnection(SocketConnection c) {
         if (conn != null)
@@ -39,11 +45,16 @@ public class User {
     
     /**
      * 推送消息给用户
+     * 
+     * @return 用户在线状态
      */
-    public void push(ProtocolData data) {
+    public boolean push(ProtocolData data) {
         if (conn != null)
         {
             conn.send(0, data);
+            return true;
         }
+        
+        return false;
     }
 }
