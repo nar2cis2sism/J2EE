@@ -58,10 +58,13 @@ public class SocketConnection implements SocketParam, Runnable {
         for (isRunning = true;recv(););
         
         // 循环退出后关闭连接
-        User user = UserManager.getUser(uid);
-        if (user != null)
+        if (isRunning)
         {
-            user.setSocketConnection(null);
+            User user = UserManager.getUser(uid);
+            if (user != null)
+            {
+                user.setSocketConnection(null);
+            }
         }
     }
     
@@ -81,14 +84,14 @@ public class SocketConnection implements SocketParam, Runnable {
         User user = TokenManager.authenticate(token);
         if (user == null)
         {
-            out.write(-1);
+            out.write(1);
             throw new Exception("Token认证失败");
         }
         
         if (crc != (CRCUtil.calculate(CRYPT_KEY, CRYPT_KEY.length) & 0xFF))
         {
 
-            out.write(-2);
+            out.write(2);
             throw new Exception("CRC校验失败");
         }
 

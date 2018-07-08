@@ -12,6 +12,8 @@ import com.project.server.storage.db.UserInfo;
 
 import engine.java.dao.DAOTemplate;
 
+import org.apache.commons.lang.SystemUtils;
+
 import java.io.File;
 
 /**
@@ -40,7 +42,7 @@ public class DAOScript extends MockData {
     
     private static void uploadApp() {
         AppUploadScript.uploadApp(0, "约吧", "2.0.0", "版本更新", 2, 
-                new File("D:\\Project\\Github\\J2ee\\AppServer\\WebRoot\\WEB-INF\\upgrade.apk"));
+                new File(SystemUtils.getUserDir(), "WebRoot/WEB-INF/upgrade.apk"));
     }
     
     private static void register() {
