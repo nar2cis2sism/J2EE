@@ -1,5 +1,6 @@
 package com.project.app.action.http;
 
+import com.project.app.AppConfig;
 import com.project.app.bean.User;
 import com.project.app.servlet.util.RequestDispatcher.TokenParser;
 import com.project.server.storage.DAOManager;
@@ -99,7 +100,7 @@ public class QueryFriendList extends TokenParser {
             {
                 item.nickname = user.nickname;
                 item.signature = user.signature;
-                item.avatar_url = user.avatar_url;
+                item.avatar_url = AppConfig.getAvatarFilePath(user.getUid());
             }
             
             list.add(item);

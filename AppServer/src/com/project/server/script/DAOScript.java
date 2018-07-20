@@ -106,7 +106,7 @@ class MockData {
     
     static
     {
-        荣狄王 = generateUser("18318066253", "password", "荣狄王", null);
+        荣狄王 = generateUser("18318066253", "password", "荣狄王", "人生没有后悔药 既然选错了路 哭着也要走下去");
         王晓庆 = generateUser("15912790679", "password", "王晓庆", "一切都会好起来");
         Jane = generateUser("15012345678", "password", "Jane", "加油哦");
         范永利 = generateUser("18311987987", "password", "范永利", null);

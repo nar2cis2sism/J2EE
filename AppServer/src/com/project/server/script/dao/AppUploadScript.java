@@ -2,6 +2,7 @@ package com.project.server.script.dao;
 
 import static com.project.server.storage.DAOManager.getDAO;
 
+import com.project.app.AppConfig;
 import com.project.app.servlet.UploadServlet;
 import com.project.server.storage.db.AppUpgradeInfo;
 
@@ -25,7 +26,7 @@ public class AppUploadScript {
         }
         
         // 相对路径
-        File uploadFile = new File(getAppDir(device, version), file.getName());
+        File uploadFile = new File(AppConfig.getAppDir(device, version), file.getName());
         if (UploadServlet.uploadFile(file, uploadFile.getPath()))
         {
             item = new AppUpgradeInfo();
@@ -42,9 +43,5 @@ public class AppUploadScript {
         }
         
         System.out.println(String.format("%s%s上传失败", name, version));
-    }
-    
-    private static File getAppDir(int device, String version) {
-        return new File("app/" + device, version);
     }
 }

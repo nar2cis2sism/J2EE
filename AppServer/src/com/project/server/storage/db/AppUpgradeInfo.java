@@ -1,7 +1,5 @@
 package com.project.server.storage.db;
 
-import com.project.app.AppConfig;
-
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
@@ -50,7 +48,7 @@ public class AppUpgradeInfo {
         item.type = type;
         item.name = name;
         item.version = version;
-        item.url = AppConfig.SERVER_URL + url;
+        item.url = url;
         item.desc = desc;
         return item;
     }

@@ -1,5 +1,7 @@
 package com.project.server.storage.db;
 
+import com.project.app.AppConfig;
+
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
@@ -58,9 +60,6 @@ public class UserInfo {
     public long version;                    // 用户信息版本号
 
     @DAOProperty
-    public String avatar_url;               // 头像下载地址
-
-    @DAOProperty
     public long avatar_ver;                 // 头像版本号
 
     /******************************* 登录信息 *******************************/
@@ -94,7 +93,7 @@ public class UserInfo {
         item.signature = signature;
         item.profile = profile;
         item.authentication = isAuthenticated ? 1 : 0;
-        item.avatar_url = avatar_url;
+        item.avatar_url = AppConfig.getAvatarFilePath(uid);
         return item;
     }
 }

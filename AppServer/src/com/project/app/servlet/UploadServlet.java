@@ -3,17 +3,22 @@ package com.project.app.servlet;
 import com.project.app.AppConfig;
 import com.project.app.bean.User;
 import com.project.app.util.TokenManager;
+import com.project.server.storage.DAOManager;
+import com.project.server.storage.db.UserInfo;
 
 import engine.java.http.HttpConnector;
-import engine.java.http.HttpRequest.ByteArrayEntity;
+import engine.java.http.HttpRequest.FileEntity;
 import engine.java.http.HttpResponse;
+import engine.java.util.StringUtil;
 import engine.java.util.common.TextUtils;
 import engine.java.util.file.FileManager;
 import engine.java.util.file.FileUtils;
+import engine.java.util.log.LogFactory.LOG;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,8 +42,7 @@ public class UploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String url = req.getRequestURI();
-        url = url.substring(url.lastIndexOf("/"));
-        if (url.startsWith("/fileUpload"))
+        if (url.endsWith("/fileUpload"))
         {
             // 内部上传
             String path = req.getParameter("path");
@@ -53,21 +57,36 @@ public class UploadServlet extends HttpServlet {
         }
         else
         {
+            String query = req.getQueryString();
+            LOG.log(String.format("收到来自%s的请求:%s?%s", req.getRemoteAddr(), url, query));
+            
             String token = req.getHeader("token");
             User user = TokenManager.authenticate(token);
             if (user == null)
             {
-                resp.setContentType("text;charset=UTF-8");
-                resp.getOutputStream().write("Token认证失败".getBytes("UTF-8"));
-                resp.getOutputStream().flush();
+                return;
             }
-            else
+
+//          String action = req.getParameter("action"); // 会报错
+            Map<String, String> parameters = StringUtil.parseQueryParameters(query);
+            String action = parameters.get("action");
+            if ("avatar".equals(action))
             {
-                String action = req.getParameter("action");
-                if ("avatar".equals(action))
+                // 上传头像
+                UserInfo info = user.info;
+                String avatar_url = AppConfig.getAvatarFilePath(info.getUid());
+                File file = new File(req.getServletContext().getRealPath(avatar_url));
+                FileManager.createFileIfNecessary(file);
+                if (!FileUtils.copyToFile(req.getInputStream(), file))
                 {
-                    // 上传头像
+                    throw new IOException("上传头像失败:" + file);
                 }
+                
+                // 更新头像版本号
+                info.avatar_ver = System.currentTimeMillis();
+                DAOManager.getDAO().update(info, "avatar_ver");
+                
+                resp.setHeader("crc", String.valueOf(info.avatar_ver));
             }
         }
     }
@@ -82,7 +101,7 @@ public class UploadServlet extends HttpServlet {
     public static boolean uploadFile(File srcFile, String desPath) {
         try {
             HttpResponse response = new HttpConnector(AppConfig.SERVER_URL + "fileUpload?path=" + desPath, 
-                    new ByteArrayEntity(FileManager.readFile(srcFile)))
+                    new FileEntity(srcFile))
             .setName("文件上传")
             .connect();
 

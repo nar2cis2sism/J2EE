@@ -36,15 +36,13 @@ public class SocketDispatcher {
 	public static ProtocolData[] dispatch(int cmd, ProtocolData data, User user) {
         try {
             Class<? extends SocketParser<? extends ProtocolData>> cls = dispatcherMap.get(cmd);
-            if (cls == null)
+            if (cls != null)
             {
-                throw new NullPointerException("没有注册信令解析器:" + data.getClass().getName());
+                SocketParser<? extends ProtocolData> parser = cls.newInstance();
+                ReflectObject ref = new ReflectObject(parser);
+                ref.invoke(ref.getMethod("parse", ProtocolData.class, User.class), data, user);
+                return parser.ack;
             }
-            
-            SocketParser<? extends ProtocolData> parser = cls.newInstance();
-            ReflectObject ref = new ReflectObject(parser);
-            ref.invoke(ref.getMethod("parse", ProtocolData.class, User.class), data, user);
-            return parser.ack;
         } catch (Exception e) {
             LOG.log(e);
         }
