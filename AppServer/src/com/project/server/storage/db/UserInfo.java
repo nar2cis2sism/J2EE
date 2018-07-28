@@ -45,13 +45,10 @@ public class UserInfo {
     public long birthday;                   // 出生日期
 
     @DAOProperty
-    public String city;                     // 常驻城市
+    public String region;                   // 所在地区
 
     @DAOProperty
     public String signature;                // 签名
-
-    @DAOProperty
-    public String profile;                  // 个人简介
 
     @DAOProperty
     public boolean isAuthenticated;         // 实名认证
@@ -89,9 +86,8 @@ public class UserInfo {
         item.nickname = nickname;
         item.gender = isFemale ? 1 : 0;
         item.birthday = birthday;
-        item.city = city;
+        item.region = region;
         item.signature = signature;
-        item.profile = profile;
         item.authentication = isAuthenticated ? 1 : 0;
         item.avatar_url = AppConfig.getAvatarFilePath(uid);
         return item;

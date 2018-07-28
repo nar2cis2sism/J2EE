@@ -29,4 +29,12 @@ public class AppConfig implements ServerConfig {
     public static String getAvatarFilePath(long uid) {
         return "avatar/" + uid;
     }
+
+    /**
+     * @param uid 用户唯一标识
+     * @return 实名认证图片存储目录路径
+     */
+    public static String getAuthenticationDirPath(long uid) {
+        return "authentication/" + uid;
+    }
 }

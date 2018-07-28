@@ -35,7 +35,7 @@ public class TokenManager {
         String token = HexUtil.encode(data);
         
         userMap.put(token, userInfo.getUid(), expiryTime);
-        User user = UserManager.saveUser(token, userInfo, deviceID);
+        User user = UserManager.saveUser(token, deviceID, userInfo);
         if (user != null)
         {
             user.invalidate();

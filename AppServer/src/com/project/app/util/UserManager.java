@@ -18,8 +18,8 @@ public class UserManager {
      * 
      * @return 被挤掉的用户
      */
-    public static User saveUser(String token, UserInfo userInfo, String deviceID) {
-        return userMap.put(userInfo.getUid(), new User(token, userInfo, deviceID));
+    public static User saveUser(String token, String deviceID, UserInfo userInfo) {
+        return userMap.put(userInfo.getUid(), new User(token, deviceID, userInfo));
     }
     
     public static User getUser(long uid) {

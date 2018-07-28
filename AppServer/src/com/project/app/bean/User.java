@@ -12,17 +12,15 @@ import protocol.java.stream.ErrorInfo;
 public class User {
     
     public final String token;
-    
-    public final UserInfo info;
-    
     public final String deviceID;
     
+    public UserInfo info;
     private SocketConnection conn;
     
-    public User(String token, UserInfo userInfo, String deviceID) {
+    public User(String token, String deviceID, UserInfo userInfo) {
         this.token = token;
-        this.info = userInfo;
         this.deviceID = deviceID;
+        this.info = userInfo;
     }
     
     public void setSocketConnection(SocketConnection c) {

@@ -14,6 +14,7 @@ import engine.java.util.common.TextUtils;
 import engine.java.util.file.FileManager;
 import engine.java.util.file.FileUtils;
 import engine.java.util.log.LogFactory.LOG;
+import engine.java.util.secure.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,18 +68,19 @@ public class UploadServlet extends HttpServlet {
                 return;
             }
 
-//          String action = req.getParameter("action"); // 会报错
+            UserInfo info = user.info;
             Map<String, String> parameters = StringUtil.parseQueryParameters(query);
+//          String action = req.getParameter("action"); // 会报错
             String action = parameters.get("action");
             if ("avatar".equals(action))
             {
                 // 上传头像
-                UserInfo info = user.info;
                 String avatar_url = AppConfig.getAvatarFilePath(info.getUid());
                 File file = new File(req.getServletContext().getRealPath(avatar_url));
                 FileManager.createFileIfNecessary(file);
                 if (!FileUtils.copyToFile(req.getInputStream(), file))
                 {
+                    FileManager.delete(file);
                     throw new IOException("上传头像失败:" + file);
                 }
                 
@@ -87,6 +89,27 @@ public class UploadServlet extends HttpServlet {
                 DAOManager.getDAO().update(info, "avatar_ver");
                 
                 resp.setHeader("crc", String.valueOf(info.avatar_ver));
+            }
+            else if ("authentication".equals(action))
+            {
+                // 实名认证
+                String authentication_url = AppConfig.getAuthenticationDirPath(info.getUid());
+                File file = new File(req.getServletContext().getRealPath(authentication_url), "authentication");
+                FileManager.createFileIfNecessary(file);
+                if (!FileUtils.copyToFile(req.getInputStream(), file))
+                {
+                    FileManager.delete(file);
+                    throw new IOException("实名认证失败:" + file);
+                }
+                
+                // 解压
+                try {
+                    ZipUtil.unzip(file, file.getParent());
+                } catch (Exception e) {
+                    throw new IOException(e);
+                } finally {
+                    FileManager.delete(file);
+                }
             }
         }
     }

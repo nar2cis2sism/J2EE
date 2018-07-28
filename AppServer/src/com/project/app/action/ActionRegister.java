@@ -3,6 +3,7 @@ package com.project.app.action;
 import static com.project.app.servlet.util.RequestDispatcher.register;
 import static com.project.server.network.socket.SocketDispatcher.register;
 
+import com.project.app.action.http.EditUserInfo;
 import com.project.app.action.http.GetUserInfo;
 import com.project.app.action.http.Login;
 import com.project.app.action.http.Navigation;
@@ -29,8 +30,8 @@ public class ActionRegister {
 //        register("register", Register.class);
         // 获取个人信息
         register("get_user_info", GetUserInfo.class);
-//        // 修改个人信息
-//        register("edit_user_info", EditUserInfo.class);
+        // 修改个人信息
+        register("edit_user_info", EditUserInfo.class);
         // 查询好友列表
         register("query_friend_list", QueryFriendList.class);
 //        // 搜索联系人
