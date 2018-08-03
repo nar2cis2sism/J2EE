@@ -13,8 +13,8 @@ import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
 
-import protocol.java.EntityUtil;
-import protocol.java.json.ErrorInfo;
+import protocol.http.ErrorInfo;
+import protocol.util.EntityUtil;
 
 import java.io.File;
 import java.io.IOException;

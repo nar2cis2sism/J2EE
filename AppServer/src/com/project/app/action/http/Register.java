@@ -13,26 +13,28 @@ public class Register extends AppParser {
     public void parse(JSONObject json) throws Exception {
         String username = json.optString("username", null);
         String password = json.optString("password", null);
+        int type = json.optInt("type", -1);
+        String passport = json.optString("passport");
         
-        if (username == null || password == null)
+        if (username == null || password == null || type == -1)
         {
             setRequestParamError();
             return;
         }
 
-        UserInfo item = UserDAO.getUserByUsername(username);
-        if (item != null)
+        UserInfo info = UserDAO.getUserByUsername(username);
+        if (info != null)
         {
             // 用户已存在
             setFailure(415);
             return;
         }
         
-        item = new UserInfo();
-        item.username = username;
-        item.password = password;
-        item.register_time = System.currentTimeMillis();
-        if (DAOManager.getDAO().save(item))
+        info = new UserInfo();
+        info.username = username;
+        info.password = password;
+        info.register_time = System.currentTimeMillis();
+        if (DAOManager.getDAO().save(info))
         {
             setSuccess(null);
         }

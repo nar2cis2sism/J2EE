@@ -4,7 +4,7 @@ import com.project.server.storage.dao.OfflineMessageDAO;
 import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.UserInfo;
 
-import protocol.java.stream.req.Message;
+import protocol.socket.req.Message;
 
 public class MessageScript {
     
@@ -13,10 +13,10 @@ public class MessageScript {
      */
     public static void sendOfflineMessage(String sender, String receiver, String content) {
         Message msg = new Message();
-        msg.id = sender + receiver + content;
         msg.account = sender;
         msg.content = content;
         msg.creationTime = System.currentTimeMillis();
+        msg.id = sender + receiver + msg.creationTime;
         
         UserInfo receiver_info = UserDAO.getUserByUsername(receiver);
         OfflineMessageDAO.addOfflineMessage(receiver_info.getUid(), msg);

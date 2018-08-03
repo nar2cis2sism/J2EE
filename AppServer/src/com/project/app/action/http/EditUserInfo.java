@@ -66,6 +66,12 @@ public class EditUserInfo extends TokenParser {
             status.setChanged("signature", true);
         }
         
+        if (!status.isChanged())
+        {
+            setSuccess(null);
+            return;
+        }
+        
         info.version = System.currentTimeMillis();
         status.setChanged("version", true);
         

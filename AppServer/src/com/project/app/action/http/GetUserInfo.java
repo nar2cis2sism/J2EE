@@ -13,7 +13,7 @@ public class GetUserInfo extends TokenParser {
         long version = json.optLong("version");
         long latestVersion = user.info.version;
         
-        if (latestVersion == 0 || version == latestVersion)
+        if (latestVersion == 0 || latestVersion == version)
         {
             setSuccess(null);
         }

@@ -8,7 +8,7 @@ import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
 
-import protocol.java.json.ErrorInfo;
+import protocol.http.ErrorInfo;
 
 import java.util.HashMap;
 

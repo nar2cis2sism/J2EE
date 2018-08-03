@@ -16,7 +16,7 @@ import engine.java.dao.util.Page;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import protocol.java.json.FriendSync;
+import protocol.http.FriendSync;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import com.project.app.bean.User;
 
 import engine.java.util.extra.ReflectObject;
 import engine.java.util.log.LogFactory.LOG;
-import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
+import protocol.util.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 import java.util.HashMap;
 

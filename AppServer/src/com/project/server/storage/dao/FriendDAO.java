@@ -14,10 +14,10 @@ public class FriendDAO extends BaseDAO {
      */
     public static Long getLatestReflogTime(long uid) {
         FriendReflog log = dao.find(FriendReflog.class)
-                .select("time")
-                .where(DAOExpression.create("user_id").eq(uid))
-                .orderDesc("time")
-                .get();
+        .select("time")
+        .where(DAOExpression.create("user_id").eq(uid))
+        .orderDesc("time")
+        .get();
         if (log != null)
         {
             return log.time;

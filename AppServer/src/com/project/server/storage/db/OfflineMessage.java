@@ -2,10 +2,10 @@ package com.project.server.storage.db;
 
 import com.project.util.GsonUtil;
 
-import protocol.java.stream.req.Message;
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
+import protocol.socket.req.Message;
 
 /**
  * 离线消息
@@ -17,10 +17,13 @@ public class OfflineMessage {
     private long id;
 
     @DAOProperty
-    public long uid;
+    public long uid;                        // 用户唯一标识
 
     @DAOProperty
-    private String msg;
+    public long creationTime;               // 消息创建时间
+    
+    @DAOProperty
+    private String msg;                     // 聊天消息
     
     public void setMessage(Message msg) {
         this.msg = GsonUtil.toJson(msg);

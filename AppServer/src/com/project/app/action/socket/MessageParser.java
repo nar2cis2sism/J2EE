@@ -7,9 +7,9 @@ import com.project.server.storage.dao.OfflineMessageDAO;
 import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.UserInfo;
 
-import protocol.java.stream.ErrorInfo;
-import protocol.java.stream.ack.MessageACK;
-import protocol.java.stream.req.Message;
+import protocol.socket.ErrorInfo;
+import protocol.socket.ack.MessageACK;
+import protocol.socket.req.Message;
 
 public class MessageParser extends SocketParser<Message> {
 

@@ -24,15 +24,15 @@ public class Login extends AppParser {
             return;
         }
 
-        UserInfo item = UserDAO.getUserByUsername(username);
-        if (item == null)
+        UserInfo info = UserDAO.getUserByUsername(username);
+        if (info == null)
         {
             // 用户不存在
             setFailure(404);
             return;
         }
         
-        if (!TextUtils.equals(item.password, password))
+        if (!TextUtils.equals(info.password, password))
         {
             // 密码错误
             setFailure(401);
@@ -40,12 +40,12 @@ public class Login extends AppParser {
         }
         
         // 生成用户登录凭证
-        String token = TokenManager.generateToken(item, deviceID);
+        String token = TokenManager.generateToken(info, deviceID);
         
         JSONObject data = new JSONObject();
         data.put("token", token);
-        data.put("user_info_ver", item.combineVersion());
-        data.put("friend_list_timestamp", FriendDAO.getLatestReflogTime(item.getUid()));
+        data.put("user_info_ver", info.combineVersion());
+        data.put("friend_list_timestamp", FriendDAO.getLatestReflogTime(info.getUid()));
         
         setSuccess(data);
     }

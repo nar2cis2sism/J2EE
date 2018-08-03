@@ -1,19 +1,14 @@
 package com.project.server.network.socket;
 
-import com.project.app.util.UserManager;
 import com.project.server.ServerConfig;
-import com.project.server.storage.dao.OfflineMessageDAO;
-import com.project.server.storage.db.OfflineMessage;
 
 import engine.java.util.extra.MyThreadFactory;
 import engine.java.util.log.LogFactory.LOG;
-import protocol.java.ProtocolWrapper;
-import protocol.java.stream.req.Message;
+import protocol.util.ProtocolWrapper;
 
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -86,7 +81,7 @@ public class SocketManager implements SocketParam, Runnable {
         }
     }
     
-    private void setAddress(ServerSocket serverSocket) {
+    private static void setAddress(ServerSocket serverSocket) {
         address = serverSocket.getInetAddress().getHostAddress() + ":" + serverSocket.getLocalPort();
     }
     
@@ -113,8 +108,6 @@ class SocketListener {
      */
     public static void onConnected(long uid) {
         SocketTimeOut.getInstance().active(uid);
-        // 推送离线消息
-        pushOfflineMessage(uid);
     }
 
     /**
@@ -122,21 +115,5 @@ class SocketListener {
      */
     public static void onReceive(long uid) {
         SocketTimeOut.getInstance().active(uid);
-    }
-    
-    private static void pushOfflineMessage(long uid) {
-        List<OfflineMessage> list = OfflineMessageDAO.getAndRemoveOfflineMessages(uid);
-        if (list != null && !list.isEmpty())
-        {
-            protocol.java.stream.OfflineMessage _ = new protocol.java.stream.OfflineMessage();
-            Message[] message = _.message = new Message[list.size()];
-            int index = 0;
-            for (OfflineMessage offlineMsg : list)
-            {
-                message[index++] = offlineMsg.getMessage();
-            }
-            
-            UserManager.getUser(uid).push(_);
-        }
     }
 }

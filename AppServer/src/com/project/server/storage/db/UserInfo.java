@@ -27,10 +27,10 @@ public class UserInfo {
     public long register_time;              // 注册时间
 
     @DAOProperty
-    public String register_email;           // 注册邮箱
+    public String email;                    // 绑定邮箱
 
     @DAOProperty
-    public String mobile_number;            // 用户手机号
+    public String mobile_phone;             // 用户手机号
 
     @DAOProperty
     public String nickname;                 // 用户昵称
@@ -74,14 +74,14 @@ public class UserInfo {
     }
     
     /**
-     * 包含“用户信息版本”和“头像版本”，用“:”分隔
+     * 包含“用户信息版本”与“头像版本”，用“:”分隔
      */
     public String combineVersion() {
         return version + ":" + avatar_ver;
     }
 
-    public protocol.java.json.UserInfo toProtocol() {
-        protocol.java.json.UserInfo item = new protocol.java.json.UserInfo();
+    public protocol.http.UserInfo toProtocol() {
+        protocol.http.UserInfo item = new protocol.http.UserInfo();
         item.version = version;
         item.nickname = nickname;
         item.gender = isFemale ? 1 : 0;

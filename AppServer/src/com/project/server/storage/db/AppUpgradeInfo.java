@@ -43,8 +43,8 @@ public class AppUpgradeInfo {
 
     /******************************* 华丽丽的分割线 *******************************/
     
-    public protocol.java.json.AppUpgradeInfo toProtocol() {
-        protocol.java.json.AppUpgradeInfo item = new protocol.java.json.AppUpgradeInfo();
+    public protocol.http.AppUpgradeInfo toProtocol() {
+        protocol.http.AppUpgradeInfo item = new protocol.http.AppUpgradeInfo();
         item.type = type;
         item.name = name;
         item.version = version;

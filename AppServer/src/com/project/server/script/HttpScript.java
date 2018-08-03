@@ -1,17 +1,19 @@
 package com.project.server.script;
 
 import com.project.app.AppConfig;
-import com.project.server.script.http.FileContent;
 
 import engine.java.http.HttpConnector;
 import engine.java.http.HttpRequest.ByteArrayEntity;
 import engine.java.http.HttpResponse;
+import engine.java.util.StringUtil;
+import engine.java.util.file.FileManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import protocol.java.EntityUtil;
+import protocol.util.EntityUtil;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 
 /**
@@ -24,18 +26,18 @@ public class HttpScript {
     private static String TOKEN;
     
     public static void main(String[] args) {
-        doAction("navigation", "获取导航配置");
+        doAction("navigation");
         login();
 //        debug("register", "用户注册");
-        doActionWithToken("get_user_info", "获取个人信息");
-//        debug("edit_user_info", "修改个人信息");
-        doActionWithToken("query_friend_list", "查询好友列表");
+        doActionWithToken("get_user_info");
+//        doActionWithToken("edit_user_info");
+        doActionWithToken("query_friend_list");
 //        debug("search_contact", "搜索联系人");
 //        debug("add_friend", "添加删除好友");
     }
     
     private static void login() {
-        String login = doAction("login", "用户登录");
+        String login = doAction("login");
         if (login != null)
         {
             try {
@@ -51,41 +53,41 @@ public class HttpScript {
         }
     }
     
-    private static String doAction(String action, String name) {
+    private static String doAction(String action) {
         try {
-            return doRequest(new String(FileContent.read(action), "UTF-8"), name);
+            return doRequest(getRequest(action));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
-    private static String doActionWithToken(String action, String name) {
-        if (TOKEN == null) throw new NullPointerException(name);
+    private static String doActionWithToken(String action) {
         try {
-            String request = new String(FileContent.read(action), "UTF-8");
-            JSONObject json = new JSONObject(request);
+            JSONObject json = new JSONObject(getRequest(action));
             json.put("token", TOKEN);
-            return doRequest(json.toString(), name);
+            return doRequest(json.toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static String doRequest(String request, String name) throws Exception {
+    private static String getRequest(String action) throws IOException {
+        return StringUtil.toString(FileManager.readFile(HttpScript.class, "http/" + action));
+    }
+
+    private static String doRequest(String request) throws Exception {
+        System.out.println("请求--" + request);
         byte[] data = EntityUtil.toByteArray(request);
         
-        HttpResponse response = new HttpConnector(AppConfig.APP_URL, new ByteArrayEntity(data))
-        .setName(name)
-        .connect();
+        HttpResponse response = new HttpConnector(AppConfig.APP_URL, new ByteArrayEntity(data)).connect();
 
-        System.out.println(request);
         int statusCode = response.getStatusCode();
         if (statusCode >= HttpURLConnection.HTTP_OK
         &&  statusCode <  HttpURLConnection.HTTP_MULT_CHOICE)
         {
             // Success
             String msg = EntityUtil.toString(response.getContent());
-            System.out.println("服务器返回--" + statusCode + ":" + msg);
+            System.out.println("响应--" + msg);
             return msg;
         }
         else

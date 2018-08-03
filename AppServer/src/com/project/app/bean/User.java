@@ -3,8 +3,8 @@ package com.project.app.bean;
 import com.project.server.network.socket.SocketConnection;
 import com.project.server.storage.db.UserInfo;
 
-import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
-import protocol.java.stream.ErrorInfo;
+import protocol.socket.ErrorInfo;
+import protocol.util.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 /**
  * 登录用户

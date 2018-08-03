@@ -11,9 +11,9 @@ import engine.java.util.io.IOUtil;
 import engine.java.util.secure.CRCUtil;
 import engine.java.util.secure.HexUtil;
 import engine.java.util.secure.Obfuscate;
-import protocol.java.ProtocolWrapper;
-import protocol.java.ProtocolWrapper.ProtocolEntity;
-import protocol.java.ProtocolWrapper.ProtocolEntity.ProtocolData;
+import protocol.util.ProtocolWrapper;
+import protocol.util.ProtocolWrapper.ProtocolEntity;
+import protocol.util.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,10 +75,9 @@ public class SocketConnection implements SocketParam, Runnable {
         String token = HexUtil.encode(data);
 
         // 混淆8位密钥输出16位数据
-        byte[] bs = new byte[7];
-        System.arraycopy(data, 0, bs, 0, bs.length);
-        byte[] key = Obfuscate.obfuscate(CRYPT_KEY, bs);
-        out.write(key);
+        byte[] key = new byte[7];
+        System.arraycopy(data, 0, key, 0, key.length);
+        out.write(Obfuscate.obfuscate(CRYPT_KEY, key));
         int crc = in.read();
         
         User user = TokenManager.authenticate(token);
@@ -112,8 +111,8 @@ public class SocketConnection implements SocketParam, Runnable {
                     throw new IOException("read bytes is -1.");
                 }
 
-                SocketListener.onReceive(uid);
                 log("收到socket信令包-" + uid, entity);
+                SocketListener.onReceive(uid);
                 entity.parseBody();
                 receive(entity.getCmd(), entity.getMsgId(), entity.getData());
             }
