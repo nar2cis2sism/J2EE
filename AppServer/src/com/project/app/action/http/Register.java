@@ -34,6 +34,7 @@ public class Register extends AppParser {
         info.username = username;
         info.password = password;
         info.register_time = System.currentTimeMillis();
+        if (type == 0) info.mobile_phone = username;
         if (DAOManager.getDAO().save(info))
         {
             setSuccess(null);

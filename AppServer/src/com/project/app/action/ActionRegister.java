@@ -7,6 +7,7 @@ import com.project.app.action.http.EditUserInfo;
 import com.project.app.action.http.GetSmsCode;
 import com.project.app.action.http.GetUserInfo;
 import com.project.app.action.http.Login;
+import com.project.app.action.http.Logout;
 import com.project.app.action.http.Navigation;
 import com.project.app.action.http.QueryFriendList;
 import com.project.app.action.http.Register;
@@ -30,6 +31,8 @@ public class ActionRegister {
         register("navigation", Navigation.class);
         // 用户登录
         register("login", Login.class);
+        // 用户注销
+        register("logout", Logout.class);
         // 获取手机验证码
         register("get_sms_code", GetSmsCode.class);
         // 用户注册

@@ -25,4 +25,8 @@ public class UserManager {
     public static User getUser(long uid) {
         return userMap.get(uid);
     }
+    
+    public static void removeUser(long uid) {
+        userMap.remove(uid);
+    }
 }
