@@ -11,6 +11,7 @@ import com.project.app.action.http.Logout;
 import com.project.app.action.http.Navigation;
 import com.project.app.action.http.QueryFriendList;
 import com.project.app.action.http.Register;
+import com.project.app.action.http.SearchContact;
 import com.project.app.action.socket.MessageParser;
 import com.project.app.action.socket.OfflineMessageParser;
 import com.project.server.network.socket.SocketDispatcher.SocketParser;
@@ -43,8 +44,8 @@ public class ActionRegister {
         register("edit_user_info", EditUserInfo.class);
         // 查询好友列表
         register("query_friend_list", QueryFriendList.class);
-//        // 搜索联系人
-//        register("search_contact", SearchContact.class);
+        // 搜索联系人
+        register("search_contact", SearchContact.class);
 //        // 添加删除好友
 //        register("add_friend", AddFriend.class);
     }

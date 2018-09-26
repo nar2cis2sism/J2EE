@@ -69,10 +69,6 @@ public class UserInfo {
 
     /******************************* 华丽丽的分割线 *******************************/
     
-    public final long getUid() {
-        return uid;
-    }
-    
     /**
      * 包含“用户信息版本”与“头像版本”，用“:”分隔
      */
@@ -91,5 +87,20 @@ public class UserInfo {
         item.authentication = isAuthenticated ? 1 : 0;
         item.avatar_url = AppConfig.getAvatarFilePath(uid);
         return item;
+    }
+
+    /******************************* 华丽丽的分割线 *******************************/
+    
+    public final long getUid() {
+        return uid;
+    }
+    
+    /**
+     * 获取头像下载地址
+     * 
+     * @return 没有头像返回Null
+     */
+    public String getAvatarUrl() {
+        return avatar_ver == 0 ? null : AppConfig.getAvatarFilePath(uid);
     }
 }
