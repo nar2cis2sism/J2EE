@@ -10,12 +10,17 @@ import engine.java.util.common.TextUtils;
 
 import org.json.JSONObject;
 
+import protocol.http.LoginData;
+
 public class Login extends AppParser {
 
     @Override
     public void parse(JSONObject json) throws Exception {
+        // 用户名
         String username = json.optString("username", null);
+        // 密码
         String password = json.optString("password", null);
+        // 设备唯一标识
         String deviceID = json.optString("deviceID", null);
         
         if (username == null || password == null || deviceID == null)
@@ -42,10 +47,10 @@ public class Login extends AppParser {
         // 生成用户登录凭证
         String token = TokenManager.generateToken(info, deviceID);
         
-        JSONObject data = new JSONObject();
-        data.put("token", token);
-        data.put("user_info_ver", info.combineVersion());
-        data.put("friend_list_timestamp", FriendDAO.getLatestReflogTime(info.getUid()));
+        LoginData data = new LoginData();
+        data.token = token;
+        data.version = info.combineVersion();
+        data.friend_list_timestamp = FriendDAO.getLatestReflogTime(info.getUid());
         
         setSuccess(data);
     }

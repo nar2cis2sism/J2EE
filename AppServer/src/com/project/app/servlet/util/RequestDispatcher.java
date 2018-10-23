@@ -4,6 +4,8 @@ import com.project.app.bean.User;
 import com.project.app.util.TokenManager;
 import com.project.util.GsonUtil;
 
+import engine.java.util.Util;
+import engine.java.util.common.TextUtils;
 import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
@@ -66,14 +68,21 @@ public class RequestDispatcher {
         
         public abstract void parse(JSONObject json) throws Exception;
         
+        protected final void setSuccess(Object jsonData) {
+            setSuccess(GsonUtil.toJson(jsonData));
+        }
+        
         protected final void setSuccess(JSONObject data) {
+            setSuccess(Util.getString(data, null));
+        }
+        
+        private void setSuccess(String data) {
             StringBuilder sb = new StringBuilder()
-            .append("{\"code\":\"")
-            .append(ErrorInfo.CODE_SUCCESS)
-            .append("\"");
-            if (data != null)
+            .append("{\"code\":")
+            .append(ErrorInfo.CODE_SUCCESS);
+            if (!TextUtils.isEmpty(data))
             {
-                sb.append(",\"data\":").append(data.toString());
+                sb.append(",\"data\":").append(data);
             }
             
             response = sb.append("}").toString();

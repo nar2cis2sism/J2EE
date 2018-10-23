@@ -63,4 +63,15 @@ public class TokenManager {
         
         return null;
     }
+    
+    /**
+     * Token失效
+     */
+    public static void invalidate(String token) {
+        Long uid = userMap.remove(token);
+        if (uid != null)
+        {
+            UserManager.removeUser(uid);
+        }
+    }
 }

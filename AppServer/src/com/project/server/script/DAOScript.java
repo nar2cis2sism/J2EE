@@ -57,6 +57,7 @@ public class DAOScript extends MockData {
         register(陶生);
         register(乌托邦);
         register(Jess_杨姐);
+        register(老婆);
     }
     
     private static void register(UserInfo info) {
@@ -103,6 +104,7 @@ class MockData {
     public static final UserInfo 陶生;
     public static final UserInfo 乌托邦;
     public static final UserInfo Jess_杨姐;
+    public static final UserInfo 老婆;
     
     static
     {
@@ -117,6 +119,7 @@ class MockData {
         陶生 = generateUser("15912390679", "password", "陶生", "");
         乌托邦 = generateUser("15972790679", "password", "乌托邦", "");
         Jess_杨姐 = generateUser("15012345679", "password", "Jess 杨姐", null);
+        老婆 = generateUser("13872530618", "password", "老婆", null);
     }
     
     private static UserInfo generateUser(String username, String password, String nickname, String signature) {

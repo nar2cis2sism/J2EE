@@ -65,7 +65,7 @@ public class UploadServlet extends HttpServlet {
             User user = TokenManager.authenticate(token);
             if (user == null)
             {
-                return;
+                throw new IOException("Token认证失败");
             }
 
             UserInfo info = user.info;
@@ -80,12 +80,11 @@ public class UploadServlet extends HttpServlet {
                 FileManager.createFileIfNecessary(file);
                 if (!FileUtils.copyToFile(req.getInputStream(), file))
                 {
-                    FileManager.delete(file);
                     throw new IOException("上传头像失败:" + file);
                 }
                 
                 // 更新头像版本号
-                info.avatar_ver = System.currentTimeMillis();
+                info.avatar_ver++;
                 DAOManager.getDAO().update(info, "avatar_ver");
                 
                 resp.setHeader("crc", String.valueOf(info.avatar_ver));

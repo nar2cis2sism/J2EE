@@ -1,22 +1,21 @@
 package com.project.app.action.http;
 
-import com.project.app.AppConfig;
 import com.project.app.bean.User;
 import com.project.app.servlet.util.RequestDispatcher.TokenParser;
 import com.project.server.storage.DAOManager;
 import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.FriendReflog;
 import com.project.server.storage.db.UserInfo;
-import com.project.util.GsonUtil;
 
 import engine.java.dao.DAOTemplate.DAOExpression;
 import engine.java.dao.DAOTemplate.DAOQueryBuilder;
 import engine.java.dao.util.Page;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import protocol.http.FriendSync;
+import protocol.http.FriendListData;
+import protocol.http.FriendListData.FriendListItem;
+import protocol.http.FriendListData.FriendListItem.FriendInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ public class QueryFriendList extends TokenParser {
     
     @Override
     public void parse(JSONObject json, User user) throws Exception {
+        // 上次更新的时间戳
         long timestamp = json.optLong("timestamp");
         
         List<FriendReflog> logs = getLatestReflogs(user.info.getUid(), timestamp);
@@ -39,11 +39,12 @@ public class QueryFriendList extends TokenParser {
         }
         else
         {
-            JSONObject data = new JSONObject();
-            data.put("timestamp", logs.get(logs.size() - 1).time);
-            data.put("sync_type", sync_type);
-            data.put("sync_status", sync_status);
-            data.put("list", new JSONArray(GsonUtil.toJson(toProtocol(logs))));
+            FriendListData data = new FriendListData();
+            data.timestamp = logs.get(logs.size() - 1).time;
+            data.sync_type = sync_type;
+            data.sync_status = sync_status;
+            data.list = toProtocol(logs);
+            
             setSuccess(data);
         }
     }
@@ -59,7 +60,7 @@ public class QueryFriendList extends TokenParser {
         if (timestamp == 0)
         {
             // 全量操作记录
-            where = where.and("action").not().eq(1);
+            where = where.and("op").not().eq(1);
         }
         else
         {
@@ -79,8 +80,8 @@ public class QueryFriendList extends TokenParser {
         return builder.getAll();
     }
     
-    private static List<FriendSync> toProtocol(List<FriendReflog> logs) {
-        List<FriendSync> list = new ArrayList<FriendSync>(logs.size());
+    private static List<FriendListItem> toProtocol(List<FriendReflog> logs) {
+        List<FriendListItem> list = new ArrayList<FriendListItem>(logs.size());
         for (FriendReflog log : logs)
         {
             UserInfo user = UserDAO.getUserById(log.friend_id);
@@ -90,17 +91,15 @@ public class QueryFriendList extends TokenParser {
                 continue;
             }
             
-            FriendSync item = new FriendSync();
+            FriendListItem item = new FriendListItem();
             item.account = user.username;
-            if ((item.action = log.action) == 1)
+            if ((item.op = log.op) == 1)
             {
                 // 删除好友
             }
             else
             {
-                item.nickname = user.nickname;
-                item.signature = user.signature;
-                item.avatar_url = AppConfig.getAvatarFilePath(user.getUid());
+                user.toProtocol(item.info = new FriendInfo());
             }
             
             list.add(item);

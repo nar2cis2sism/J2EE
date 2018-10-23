@@ -24,7 +24,7 @@ public class FriendReflog {
      * 1：删除好友
      */
     @DAOProperty
-    public int action;                      // 操作指令
+    public int op;                          // 操作指令
 
     @DAOProperty
     public long time;                       // 记录时间

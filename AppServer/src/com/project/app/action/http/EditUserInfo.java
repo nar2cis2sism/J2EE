@@ -14,7 +14,8 @@ public class EditUserInfo extends TokenParser {
     
     @Override
     public void parse(JSONObject json, User user) throws Exception {
-        long version = json.optLong("version", -1);
+        // 用户信息版本
+        int version = json.optInt("version", -1);
         if (version == -1)
         {
             setRequestParamError();
@@ -44,8 +45,8 @@ public class EditUserInfo extends TokenParser {
         
         if (gender != -1)
         {
-            info.isFemale = gender == 1;
-            status.setChanged("isFemale", true);
+            info.gender = gender;
+            status.setChanged("gender", true);
         }
         
         if (birthday != -1)
@@ -72,7 +73,7 @@ public class EditUserInfo extends TokenParser {
             return;
         }
         
-        info.version = System.currentTimeMillis();
+        info.version++;
         status.setChanged("version", true);
         
         if (DAOManager.getDAO().update(info, status.getChangedProperties()))

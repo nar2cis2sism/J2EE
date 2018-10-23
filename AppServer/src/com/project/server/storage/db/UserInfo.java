@@ -5,6 +5,9 @@ import com.project.app.AppConfig;
 import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
+import protocol.http.FriendData.FriendInfo;
+import protocol.http.FriendListData.FriendListItem;
+import protocol.http.UserData;
 
 /**
  * 用户资料
@@ -38,26 +41,40 @@ public class UserInfo {
     @DAOProperty
     public String name;                     // 真实姓名
     
+    /**
+     * 0：男
+     * 1：女
+     */
     @DAOProperty
-    public boolean isFemale;                // 性别[true:女,false:男]
+    public int gender;                      // 性别
 
     @DAOProperty
     public long birthday;                   // 出生日期
 
+    /**
+     * 此字段包含
+     * “区域编码(String)”与
+     * “地区名称(String)”，
+     * 用“:”分隔
+     */
     @DAOProperty
     public String region;                   // 所在地区
 
     @DAOProperty
     public String signature;                // 签名
 
+    /**
+     * 0：未认证
+     * 1：已认证
+     */
     @DAOProperty
-    public boolean isAuthenticated;         // 实名认证
+    public int authentication;              // 实名认证
 
     @DAOProperty
-    public long version;                    // 用户信息版本号
+    public int version;                     // 用户信息版本号
 
     @DAOProperty
-    public long avatar_ver;                 // 头像版本号
+    public int avatar_ver;                  // 头像版本号
 
     /******************************* 登录信息 *******************************/
 
@@ -70,23 +87,39 @@ public class UserInfo {
     /******************************* 华丽丽的分割线 *******************************/
     
     /**
-     * 包含“用户信息版本”与“头像版本”，用“:”分隔
+     * 用户资料版本
+     * 高位表示“头像版本(Int32)”
+     * 低位表示“信息版本(Int32)”
      */
-    public String combineVersion() {
-        return version + ":" + avatar_ver;
+    public long combineVersion() {
+        return ((long) avatar_ver) << 32 | version;
     }
 
-    public protocol.http.UserInfo toProtocol() {
-        protocol.http.UserInfo item = new protocol.http.UserInfo();
-        item.version = version;
-        item.nickname = nickname;
-        item.gender = isFemale ? 1 : 0;
-        item.birthday = birthday;
-        item.region = region;
-        item.signature = signature;
-        item.authentication = isAuthenticated ? 1 : 0;
-        item.avatar_url = AppConfig.getAvatarFilePath(uid);
-        return item;
+    public UserData toProtocol() {
+        UserData data = new UserData();
+        data.version = version;
+        data.nickname = nickname;
+        data.gender = gender;
+        data.birthday = birthday;
+        data.region = region;
+        data.signature = signature;
+        data.authentication = authentication;
+        data.avatar_url = AppConfig.getAvatarFilePath(uid);
+        return data;
+    }
+
+    public void toProtocol(FriendInfo info) {
+        info.nickname = nickname;
+        info.gender = gender;
+        info.region = region;
+        info.signature = signature;
+        info.avatar_url = AppConfig.getAvatarFilePath(uid);
+        info.mobile_phone = mobile_phone;
+    }
+
+    public void toProtocol(FriendListItem.FriendInfo info) {
+        info.version = combineVersion();
+        toProtocol((FriendInfo) info);
     }
 
     /******************************* 华丽丽的分割线 *******************************/

@@ -5,18 +5,21 @@ import com.project.app.servlet.util.RequestDispatcher.AppParser;
 import com.project.server.network.socket.SocketManager;
 import com.project.server.storage.dao.CommonDAO;
 import com.project.server.storage.db.AppUpgradeInfo;
-import com.project.util.GsonUtil;
 
 import engine.java.util.common.TextUtils;
 import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
 
+import protocol.http.NavigationData;
+
 public class Navigation extends AppParser {
 
     @Override
     public void parse(JSONObject json) throws Exception {
+        // 客户端类型
         int device = json.optInt("device", -1);
+        // 客户端版本号
         String version = json.optString("version", null);
         
         if (device == -1 || version == null)
@@ -38,10 +41,10 @@ public class Navigation extends AppParser {
             throw new Exception("Socket服务器未启动");
         }
         
-        JSONObject data = new JSONObject();
-        data.put("socket_server_url", socket_server_url);
-        data.put("upload_server_url", AppConfig.UPLOAD_URL);
-        data.put("download_server_url", AppConfig.SERVER_URL);
+        NavigationData data = new NavigationData();
+        data.socket_server_url = socket_server_url;
+        data.upload_server_url = AppConfig.UPLOAD_URL;
+        data.download_server_url = AppConfig.SERVER_URL;
 
         AppUpgradeInfo item = CommonDAO.getLastestApp(device);
         if (item != null)
@@ -55,7 +58,7 @@ public class Navigation extends AppParser {
             if (lastestVersionInfo.compareTo(versionInfo) > 0)
             {
                 // 应用有更新
-                data.put("upgrade", new JSONObject(GsonUtil.toJson(item.toProtocol())));
+                data.upgrade = item.toProtocol();
             }
         }
         

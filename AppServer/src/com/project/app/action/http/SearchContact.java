@@ -6,11 +6,13 @@ import com.project.server.storage.dao.UserDAO;
 import com.project.server.storage.db.UserInfo;
 
 import engine.java.dao.util.Page;
-import engine.java.util.common.TextUtils;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
+import protocol.http.SearchContactData;
+import protocol.http.SearchContactData.ContactData;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchContact extends TokenParser {
@@ -19,9 +21,12 @@ public class SearchContact extends TokenParser {
     
     @Override
     public void parse(JSONObject json, User user) throws Exception {
-        String key = json.optString("key");
-        String range = json.optString("range");
-        if (TextUtils.isEmpty(key))
+        // 搜索关键字
+        String key = json.optString("key", null);
+        // 搜索范围
+        long range = json.optLong("range");
+        
+        if (key == null)
         {
             setRequestParamError();
             return;
@@ -35,7 +40,7 @@ public class SearchContact extends TokenParser {
         }
         
         Page page = null;
-        if (TextUtils.isEmpty(range))
+        if (range == 0)
         {
             if (count > PAGE_SIZE)
             {
@@ -44,41 +49,34 @@ public class SearchContact extends TokenParser {
         }
         else
         {
-            String[] strs = range.split(":");
-            if (strs.length != 2)
-            {
-                setRequestParamError();
-                return;
-            }
-            
-            try {
-                page = new Page(Integer.parseInt(strs[1]), count);
-                page.setCurrentRecord(Integer.parseInt(strs[0]));
-            } catch (Exception e) {
-                setRequestParamError();
-                return;
-            }
+            page = new Page((int) range, count);
+            page.setCurrentRecord((int) (range >> 32));
         }
         
-        JSONObject data = new JSONObject();
-        data.put("count", count);
+        SearchContactData data = new SearchContactData();
+        data.count = count;
         
         List<UserInfo> list = UserDAO.findByKey(key, page);
         if (list != null && !list.isEmpty())
         {
-            JSONArray array = new JSONArray();
-            for (UserInfo info : list)
-            {
-                JSONObject item = new JSONObject();
-                item.put("account", info.username);
-                item.put("nickname", info.nickname);
-                item.put("avatar_url", info.getAvatarUrl());
-                array.put(item);
-            }
-            
-            data.put("list", array);
+            data.list = toProtocol(list);
         }
         
         setSuccess(data);
+    }
+    
+    private static List<ContactData> toProtocol(List<UserInfo> infos) {
+        List<ContactData> list = new ArrayList<>(infos.size());
+        for (UserInfo info : infos)
+        {
+            ContactData item = new ContactData();
+            item.account = info.username;
+            item.nickname = info.nickname;
+            item.avatar_url = info.getAvatarUrl();
+            
+            list.add(item);
+        }
+        
+        return list;
     }
 }

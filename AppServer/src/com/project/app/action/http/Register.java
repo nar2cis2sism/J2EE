@@ -11,9 +11,13 @@ public class Register extends AppParser {
 
     @Override
     public void parse(JSONObject json) throws Exception {
+        // 用户名
         String username = json.optString("username", null);
+        // 密码
         String password = json.optString("password", null);
+        // 注册方式
         int type = json.optInt("type", -1);
+        // 短信验证码
         String passport = json.optString("passport");
         
         if (username == null || password == null || type == -1)
@@ -34,7 +38,12 @@ public class Register extends AppParser {
         info.username = username;
         info.password = password;
         info.register_time = System.currentTimeMillis();
-        if (type == 0) info.mobile_phone = username;
+        if (type == 0)
+        {
+            info.mobile_phone = username;
+            info.version++;
+        }
+        
         if (DAOManager.getDAO().save(info))
         {
             setSuccess(null);

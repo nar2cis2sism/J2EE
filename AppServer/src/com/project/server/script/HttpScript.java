@@ -23,17 +23,22 @@ import java.net.HttpURLConnection;
  */
 public class HttpScript {
     
+    private static boolean log = true;
+    
     private static String TOKEN;
     
     public static void main(String[] args) {
         doAction("navigation");
         login();
-//        debug("register", "用户注册");
+        doAction("get_sms_code");
+        doAction("register");
         doActionWithToken("get_user_info");
-//        doActionWithToken("edit_user_info");
+        doActionWithToken("edit_user_info");
+        doActionWithToken("get_friend_info");
         doActionWithToken("query_friend_list");
-//        debug("search_contact", "搜索联系人");
-//        debug("add_friend", "添加删除好友");
+        doActionWithToken("search_contact");
+        doActionWithToken("add_friend");
+        doActionWithToken("logout");
     }
     
     private static void login() {
@@ -42,11 +47,8 @@ public class HttpScript {
         {
             try {
                 JSONObject json = new JSONObject(login);
-                JSONObject data = json.optJSONObject("data");
-                if (data != null)
-                {
-                    TOKEN = data.getString("token");
-                }
+                JSONObject data = json.getJSONObject("data");
+                TOKEN = data.getString("token");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -62,6 +64,13 @@ public class HttpScript {
     }
     
     private static String doActionWithToken(String action) {
+        if (TOKEN == null)
+        {
+            log = false;
+            login();
+            log = true;
+        }
+        
         try {
             JSONObject json = new JSONObject(getRequest(action));
             json.put("token", TOKEN);
@@ -76,7 +85,7 @@ public class HttpScript {
     }
 
     private static String doRequest(String request) throws Exception {
-        System.out.println("请求--" + request);
+        if (log) System.out.println("请求--" + request);
         byte[] data = EntityUtil.toByteArray(request);
         
         HttpResponse response = new HttpConnector(AppConfig.APP_URL, new ByteArrayEntity(data)).connect();
@@ -87,12 +96,12 @@ public class HttpScript {
         {
             // Success
             String msg = EntityUtil.toString(response.getContent());
-            System.out.println("响应--" + msg);
+            if (log) System.out.println("响应--" + msg);
             return msg;
         }
         else
         {
-            System.out.println("服务器返回--" + statusCode + ":" + response.getReasonPhrase());
+            if (log) System.out.println("服务器返回--" + statusCode + ":" + response.getReasonPhrase());
         }
     
         return null;

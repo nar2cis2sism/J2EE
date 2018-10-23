@@ -9,16 +9,18 @@ public class GetSmsCode extends AppParser {
 
     @Override
     public void parse(JSONObject json) throws Exception {
+        // 手机号
         String mobile_phone = json.optString("mobile_phone", null);
-        int type = json.optInt("type", -1);
+        // 号码验重
+        int duplication = json.optInt("duplication", -1);
         
-        if (mobile_phone == null || type == -1)
+        if (mobile_phone == null || duplication == -1)
         {
             setRequestParamError();
             return;
         }
         
-        if (type == 1 && CommonDAO.isMobileExist(mobile_phone))
+        if (duplication == 1 && CommonDAO.isMobileExist(mobile_phone))
         {
             setFailure(415);
             return;
