@@ -22,14 +22,17 @@ public class UserManager {
         return userMap.put(userInfo.getUid(), new User(token, deviceID, userInfo));
     }
     
-    public static User getUser(long uid) {
-        return userMap.get(uid);
-    }
-    
     /**
      * 注销用户
      */
     static void removeUser(long uid) {
         userMap.remove(uid);
+    }
+    
+    /**
+     * 获取在线用户
+     */
+    public static User getUser(long uid) {
+        return userMap.get(uid);
     }
 }

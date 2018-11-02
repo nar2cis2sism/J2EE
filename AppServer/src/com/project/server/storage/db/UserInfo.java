@@ -29,6 +29,8 @@ public class UserInfo {
     @DAOProperty
     public long register_time;              // 注册时间
 
+    /******************************* 用户信息 *******************************/
+
     @DAOProperty
     public String email;                    // 绑定邮箱
 

@@ -25,8 +25,7 @@ public class CommonDAO extends BaseDAO {
      */
     public static boolean isMobileExist(String mobile_phone) {
         return dao.find(UserInfo.class)
-        .where(DAOExpression.create("mobile_phone").eq(mobile_phone)
-        .or("username").eq(mobile_phone))
+        .where(DAOExpression.create("mobile_phone").eq(mobile_phone))
         .getCount() > 0;
     }
 }

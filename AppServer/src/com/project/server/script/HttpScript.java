@@ -29,9 +29,9 @@ public class HttpScript {
     
     public static void main(String[] args) {
         doAction("navigation");
-        login();
         doAction("get_sms_code");
         doAction("register");
+        login();
         doActionWithToken("get_user_info");
         doActionWithToken("edit_user_info");
         doActionWithToken("get_friend_info");

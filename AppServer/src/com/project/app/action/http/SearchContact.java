@@ -39,6 +39,9 @@ public class SearchContact extends TokenParser {
             return;
         }
         
+        SearchContactData data = new SearchContactData();
+        data.count = count;
+        
         Page page = null;
         if (range == 0)
         {
@@ -52,9 +55,6 @@ public class SearchContact extends TokenParser {
             page = new Page((int) range, count);
             page.setCurrentRecord((int) (range >> 32));
         }
-        
-        SearchContactData data = new SearchContactData();
-        data.count = count;
         
         List<UserInfo> list = UserDAO.findByKey(key, page);
         if (list != null && !list.isEmpty())

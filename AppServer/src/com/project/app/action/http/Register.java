@@ -17,7 +17,7 @@ public class Register extends AppParser {
         String password = json.optString("password", null);
         // 注册方式
         int type = json.optInt("type", -1);
-        // 短信验证码
+        // 手机号码注册时为短信验证码
         String passport = json.optString("passport");
         
         if (username == null || password == null || type == -1)

@@ -9,7 +9,7 @@ public interface ServerConfig {
     boolean IS_TESTING      = true;
     
     /** 服务器IP地址 **/
-    String SERVER_IP        = "10.66.51.105";
+    String SERVER_IP        = "192.168.1.101";
     /** 端口号 **/
     int SERVER_PORT         = 8080;
 }

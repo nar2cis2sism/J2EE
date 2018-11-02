@@ -69,11 +69,13 @@ public class QueryFriendList extends TokenParser {
             sync_type = 1;
         }
         
-        DAOQueryBuilder<FriendReflog> builder = DAOManager.getDAO().find(FriendReflog.class).where(where).orderBy("time");
+        DAOQueryBuilder<FriendReflog> builder = DAOManager.getDAO().find(FriendReflog.class)
+        .where(where)
+        .orderBy("time");
         if (builder.getCount() > SYNC_COUNT)
         {
             // 分批进行处理
-            builder.usePage(new Page(SYNC_COUNT, Integer.MAX_VALUE));
+            builder.usePage(new Page(SYNC_COUNT, SYNC_COUNT));
             sync_status = 1;
         }
         
