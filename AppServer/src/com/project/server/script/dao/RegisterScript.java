@@ -12,15 +12,15 @@ public class RegisterScript extends BaseDAO {
      * 注册用户
      */
     public static void register(String username, String password, String nickname, String signature) {
-        UserInfo item = new UserInfo();
-        item.username = username;
-        item.password = HexUtil.encode(CryptoUtil.SHA1((password + "000").getBytes()));
-        item.register_time = System.currentTimeMillis();
+        UserInfo info = new UserInfo();
+        info.username = username;
+        info.password = HexUtil.encode(CryptoUtil.SHA1((password + "000").getBytes()));
+        info.register_time = System.currentTimeMillis();
         
-        item.nickname = nickname;
-        item.signature = signature;
-        item.version++;
-        if (!dao.save(item))
+        info.nickname = nickname;
+        info.signature = signature;
+        info.version++;
+        if (!dao.save(info))
         {
             System.out.println(String.format("用户%s注册失败", username));
         }

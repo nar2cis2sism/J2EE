@@ -10,15 +10,20 @@ import engine.java.http.HttpConnector;
 import engine.java.http.HttpRequest.FileEntity;
 import engine.java.http.HttpResponse;
 import engine.java.util.StringUtil;
+import engine.java.util.common.LogFactory.LOG;
 import engine.java.util.common.TextUtils;
 import engine.java.util.file.FileManager;
 import engine.java.util.file.FileUtils;
-import engine.java.util.log.LogFactory.LOG;
 import engine.java.util.secure.ZipUtil;
+
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -51,9 +56,36 @@ public class UploadServlet extends HttpServlet {
             
             File file = new File(req.getServletContext().getRealPath(path));
             FileManager.createFileIfNecessary(file);
-            if (!FileUtils.copyToFile(req.getInputStream(), file))
+            if (FileUtils.copyToFile(req.getInputStream(), file))
             {
-                throw new IOException("文件上传失败:" + file);
+                return;
+            }
+        }
+        else if (url.endsWith("/log"))
+        {
+            // 日志上传
+            if (ServletFileUpload.isMultipartContent(req))
+            {
+                ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+                try {
+                    List<FileItem> list = upload.parseRequest(req);
+                    for (FileItem item : list)
+                    {
+                        if (!item.isFormField())
+                        {
+                            // 取出上传文件的文件名称
+                            String fileName = item.getName();
+                            // 上传文件
+                            String log_url = AppConfig.getLogDirPath();
+                            File file = new File(req.getServletContext().getRealPath(log_url), fileName);
+                            FileManager.createFileIfNecessary(file);
+                            item.write(file);
+                            return;
+                        }
+                    }
+                } catch (Exception e) {
+                    LOG.log(e);
+                }
             }
         }
         else
@@ -63,54 +95,55 @@ public class UploadServlet extends HttpServlet {
             
             String token = req.getHeader("token");
             User user = TokenManager.authenticate(token);
-            if (user == null)
+            if (user != null)
             {
-                throw new IOException("Token认证失败");
-            }
-
-            UserInfo info = user.info;
-            Map<String, String> parameters = StringUtil.parseQueryParameters(query);
-//          String action = req.getParameter("action"); // 会报错
-            String action = parameters.get("action");
-            if ("avatar".equals(action))
-            {
-                // 上传头像
-                String avatar_url = AppConfig.getAvatarFilePath(info.getUid());
-                File file = new File(req.getServletContext().getRealPath(avatar_url));
-                FileManager.createFileIfNecessary(file);
-                if (!FileUtils.copyToFile(req.getInputStream(), file))
+                UserInfo info = user.info;
+                Map<String, String> parameters = StringUtil.parseQueryParameters(query);
+//              String action = req.getParameter("action"); // 会报错
+                String action = parameters.get("action");
+                if ("avatar".equals(action))
                 {
-                    throw new IOException("上传头像失败:" + file);
+                    // 上传头像
+                    String avatar_url = AppConfig.getAvatarFilePath(info.getUid());
+                    File file = new File(req.getServletContext().getRealPath(avatar_url));
+                    FileManager.createFileIfNecessary(file);
+                    if (FileUtils.copyToFile(req.getInputStream(), file))
+                    {
+                        // 更新头像版本号
+                        resp.setHeader("crc", String.valueOf(++info.avatar_ver));
+                        DAOManager.getDAO().update(info, "avatar_ver");
+                        return;
+                    }
+                    
                 }
-                
-                // 更新头像版本号
-                info.avatar_ver++;
-                DAOManager.getDAO().update(info, "avatar_ver");
-                
-                resp.setHeader("crc", String.valueOf(info.avatar_ver));
-            }
-            else if ("authentication".equals(action))
-            {
-                // 实名认证
-                String authentication_url = AppConfig.getAuthenticationDirPath(info.getUid());
-                File file = new File(req.getServletContext().getRealPath(authentication_url), "authentication");
-                FileManager.createFileIfNecessary(file);
-                if (!FileUtils.copyToFile(req.getInputStream(), file))
+                else if ("authentication".equals(action))
                 {
-                    FileManager.delete(file);
-                    throw new IOException("实名认证失败:" + file);
+                    // 实名认证
+                    String authentication_url = AppConfig.getAuthenticationDirPath(info.getUid());
+                    File file = new File(req.getServletContext().getRealPath(authentication_url), "authentication");
+                    FileManager.createFileIfNecessary(file);
+                    if (FileUtils.copyToFile(req.getInputStream(), file))
+                    {
+                        // 解压
+                        try {
+                            ZipUtil.unzip(file, file.getParent());
+                        } catch (Exception e) {
+                            LOG.log(e);
+                        } finally {
+                            FileManager.delete(file);
+                        }
+                        
+                        return;
+                    }
                 }
-                
-                // 解压
-                try {
-                    ZipUtil.unzip(file, file.getParent());
-                } catch (Exception e) {
-                    throw new IOException(e);
-                } finally {
-                    FileManager.delete(file);
-                }
+            }
+            else
+            {
+                LOG.log("Token认证失败");
             }
         }
+        
+        resp.setStatus(400);
     }
     
     /**

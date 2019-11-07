@@ -4,6 +4,8 @@ import engine.java.dao.annotation.DAOPrimaryKey;
 import engine.java.dao.annotation.DAOProperty;
 import engine.java.dao.annotation.DAOTable;
 
+import protocol.http.NavigationData;
+
 /**
  * 客户端升级信息
  */
@@ -43,8 +45,8 @@ public class AppUpgradeInfo {
 
     /******************************* 华丽丽的分割线 *******************************/
     
-    public protocol.http.NavigationData.AppUpgradeInfo toProtocol() {
-        protocol.http.NavigationData.AppUpgradeInfo item = new protocol.http.NavigationData.AppUpgradeInfo();
+    public NavigationData.AppUpgradeInfo toProtocol() {
+        NavigationData.AppUpgradeInfo item = new NavigationData.AppUpgradeInfo();
         item.type = type;
         item.name = name;
         item.version = version;

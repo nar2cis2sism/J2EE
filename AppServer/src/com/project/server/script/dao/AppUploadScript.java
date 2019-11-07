@@ -17,14 +17,14 @@ public class AppUploadScript extends BaseDAO {
         File uploadFile = new File(AppConfig.getAppDir(device, version), file.getName());
         if (UploadServlet.uploadFile(file, uploadFile.getPath()))
         {
-            AppUpgradeInfo item = new AppUpgradeInfo();
-            item.type = type;
-            item.name = name;
-            item.version = version;
-            item.url = uploadFile.getPath();
-            item.desc = desc;
-            item.device = device;
-            if (dao.save(item))
+            AppUpgradeInfo info = new AppUpgradeInfo();
+            info.type = type;
+            info.name = name;
+            info.version = version;
+            info.url = uploadFile.getPath();
+            info.desc = desc;
+            info.device = device;
+            if (dao.save(info))
             {
                 return;
             }

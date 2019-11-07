@@ -8,8 +8,6 @@ import engine.java.util.extra.KeyExpiryMap;
 import engine.java.util.secure.CryptoUtil;
 import engine.java.util.secure.HexUtil;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * 凭证管理器
  */
@@ -24,8 +22,7 @@ public class TokenManager {
     /**
      * 生成32位Token串（解码后为16个字节数据用于Socket握手）
      */
-    public static String generateToken(UserInfo userInfo, String deviceID)
-            throws UnsupportedEncodingException {
+    public static String generateToken(UserInfo userInfo, String deviceID) {
         // 用户名+设备号保证唯一性，加盐保证随机性
         int salt = Util.getRandom(0, Integer.MAX_VALUE);
         String str = userInfo.username + deviceID + salt;

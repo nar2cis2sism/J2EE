@@ -61,7 +61,8 @@ public class ActionRegister {
         registerSocketAction(OfflineMessage.class, OfflineMessageParser.class);
     }
     
-    private static <D extends ProtocolData, P extends SocketParser<D>> void registerSocketAction(Class<D> d, Class<P> p) {
+    private static <D extends ProtocolData, P extends SocketParser<D>> void registerSocketAction(
+            Class<D> d, Class<P> p) {
         register(d.getName().hashCode(), p);
     }
 }

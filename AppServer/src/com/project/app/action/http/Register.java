@@ -40,6 +40,12 @@ public class Register extends AppParser {
         info.register_time = System.currentTimeMillis();
         if (type == 0)
         {
+            if (!"1234".equals(passport))
+            {
+                setFailure(406);
+                return;
+            }
+            
             info.mobile_phone = username;
             info.version++;
         }

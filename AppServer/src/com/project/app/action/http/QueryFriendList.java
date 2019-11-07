@@ -83,7 +83,7 @@ public class QueryFriendList extends TokenParser {
     }
     
     private static List<FriendListItem> toProtocol(List<FriendReflog> logs) {
-        List<FriendListItem> list = new ArrayList<FriendListItem>(logs.size());
+        ArrayList<FriendListItem> list = new ArrayList<FriendListItem>(logs.size());
         for (FriendReflog log : logs)
         {
             UserInfo user = UserDAO.getUserById(log.friend_id);

@@ -24,11 +24,7 @@ public class User {
     }
     
     public void setSocketConnection(SocketConnection c) {
-        if (conn != null)
-        {
-            conn.close();
-        }
-        
+        if (conn != null) conn.close();
         conn = c;
     }
     

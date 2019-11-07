@@ -39,6 +39,9 @@ public class HttpScript {
         doActionWithToken("search_contact");
         doActionWithToken("add_friend");
         doActionWithToken("logout");
+        
+        System.out.println();
+        System.out.println("OK");
     }
     
     private static void login() {
@@ -51,6 +54,7 @@ public class HttpScript {
                 TOKEN = data.getString("token");
             } catch (JSONException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -89,7 +93,6 @@ public class HttpScript {
         byte[] data = EntityUtil.toByteArray(request);
         
         HttpResponse response = new HttpConnector(AppConfig.APP_URL, new ByteArrayEntity(data)).connect();
-
         int statusCode = response.getStatusCode();
         if (statusCode >= HttpURLConnection.HTTP_OK
         &&  statusCode <  HttpURLConnection.HTTP_MULT_CHOICE)

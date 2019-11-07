@@ -66,7 +66,7 @@ public class SearchContact extends TokenParser {
     }
     
     private static List<ContactData> toProtocol(List<UserInfo> infos) {
-        List<ContactData> list = new ArrayList<>(infos.size());
+        ArrayList<ContactData> list = new ArrayList<>(infos.size());
         for (UserInfo info : infos)
         {
             ContactData item = new ContactData();

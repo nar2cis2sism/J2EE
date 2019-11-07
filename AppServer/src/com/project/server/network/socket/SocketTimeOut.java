@@ -3,8 +3,8 @@ package com.project.server.network.socket;
 import com.project.app.bean.User;
 import com.project.app.util.UserManager;
 
+import engine.java.util.common.LogFactory.LOG;
 import engine.java.util.extra.Singleton;
-import engine.java.util.log.LogFactory.LOG;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -41,7 +41,6 @@ public class SocketTimeOut implements SocketParam, Runnable {
         @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "socket连接计时器");
-
             t.setDaemon(true);
             t.setPriority(Thread.NORM_PRIORITY - 1);
 
@@ -60,6 +59,10 @@ public class SocketTimeOut implements SocketParam, Runnable {
         {
             timer.schedule(this, TIMEOUT, TimeUnit.MILLISECONDS);
         }
+    }
+    
+    public void remove(long uid) {
+        timeout.remove(uid);
     }
 
     @Override

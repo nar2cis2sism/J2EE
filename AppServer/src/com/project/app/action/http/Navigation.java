@@ -6,8 +6,8 @@ import com.project.server.network.socket.SocketManager;
 import com.project.server.storage.dao.CommonDAO;
 import com.project.server.storage.db.AppUpgradeInfo;
 
+import engine.java.util.common.LogFactory.LOG;
 import engine.java.util.common.TextUtils;
-import engine.java.util.log.LogFactory.LOG;
 
 import org.json.JSONObject;
 
@@ -46,19 +46,19 @@ public class Navigation extends AppParser {
         data.upload_server_url = AppConfig.UPLOAD_URL;
         data.download_server_url = AppConfig.SERVER_URL;
 
-        AppUpgradeInfo item = CommonDAO.getLastestApp(device);
-        if (item != null)
+        AppUpgradeInfo info = CommonDAO.getLastestApp(device);
+        if (info != null)
         {
             VersionInfo lastestVersionInfo = new VersionInfo();
-            if (!lastestVersionInfo.parse(item.version))
+            if (!lastestVersionInfo.parse(info.version))
             {
-                throw new Exception("数据库信息错误:app.version=" + item.version);
+                throw new Exception("数据库信息错误:app.version=" + info.version);
             }
             
             if (lastestVersionInfo.compareTo(versionInfo) > 0)
             {
                 // 应用有更新
-                data.upgrade = item.toProtocol();
+                data.upgrade = info.toProtocol();
             }
         }
         

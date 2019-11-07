@@ -1,12 +1,13 @@
 package com.project.server.network.socket;
 
-import static engine.java.util.log.LogFactory.LOG.log;
+import static engine.java.util.common.LogFactory.LOG.log;
 
 import com.project.app.bean.User;
 import com.project.app.util.TokenManager;
 import com.project.app.util.UserManager;
 import com.project.util.GsonUtil;
 
+import engine.java.util.io.ByteDataUtil;
 import engine.java.util.io.IOUtil;
 import engine.java.util.secure.CRCUtil;
 import engine.java.util.secure.HexUtil;
@@ -56,8 +57,8 @@ public class SocketConnection implements SocketParam, Runnable {
 
         SocketListener.onConnected(uid);
         for (isRunning = true;recv(););
-        
         // 循环退出后关闭连接
+        SocketListener.onClosed(uid);
         if (isRunning)
         {
             User user = UserManager.getUser(uid);
@@ -69,16 +70,18 @@ public class SocketConnection implements SocketParam, Runnable {
     }
     
     private void handshake(InputStream in, OutputStream out) throws Exception {
-        // 读取16位Token值
+        // 读取Token值
         byte[] data = new byte[16];
         in.read(data);
         String token = HexUtil.encode(data);
-
-        // 混淆8位密钥输出16位数据
+        // 混淆64位密钥输出128位数据
         byte[] key = new byte[7];
         System.arraycopy(data, 0, key, 0, key.length);
         out.write(Obfuscate.obfuscate(CRYPT_KEY, key));
-        int crc = in.read();
+        // 读取crc值
+        byte[] bs = new byte[4];
+        in.read(bs);
+        int crc = ByteDataUtil.bytesToInt_HL(bs, 0);
         
         User user = TokenManager.authenticate(token);
         if (user == null)
@@ -87,13 +90,11 @@ public class SocketConnection implements SocketParam, Runnable {
             throw new Exception("Token认证失败");
         }
         
-        if (crc != (CRCUtil.calculate(CRYPT_KEY, CRYPT_KEY.length) & 0xFF))
+        if (crc != CRCUtil.calculate(CRYPT_KEY))
         {
-
             out.write(2);
             throw new Exception("CRC校验失败");
         }
-
         // 握手成功
         out.write(0);
         
@@ -139,13 +140,10 @@ public class SocketConnection implements SocketParam, Runnable {
 
     private void receive(int cmd, int msgId, ProtocolData data) {
         log("收到socket信令包-" + uid, data.getClass().getSimpleName() + GsonUtil.toJson(data));
-        ProtocolData[] ack = SocketDispatcher.dispatch(cmd, data, UserManager.getUser(uid));
+        ProtocolData ack = SocketDispatcher.dispatch(cmd, data, UserManager.getUser(uid));
         if (ack != null)
         {
-            for (ProtocolData d : ack)
-            {
-                send(msgId, d);
-            }
+            send(msgId, ack);
         }
     }
 
@@ -210,7 +208,7 @@ public class SocketConnection implements SocketParam, Runnable {
                 } finally {
                     sendout();
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 log(e);
             }
         }

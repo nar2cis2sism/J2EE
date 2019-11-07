@@ -30,6 +30,9 @@ public class DAOScript extends MockData {
         register();
         addFriend();
         sendMessage();
+        
+        System.out.println();
+        System.out.println("OK");
     }
     
     private static void createTable() {
@@ -108,18 +111,18 @@ class MockData {
     
     static
     {
-        荣狄王 = generateUser("18318066253", "password", "荣狄王", "人生没有后悔药 既然选错了路 哭着也要走下去");
-        王晓庆 = generateUser("15912790679", "password", "王晓庆", "一切都会好起来");
-        Jane = generateUser("15012345678", "password", "Jane", "加油哦");
-        范永利 = generateUser("18311987987", "password", "范永利", null);
-        李冰涛 = generateUser("15012395679", "password", "李冰涛", "fire in the hole");
-        _658了 = generateUser("13972798679", "password", "*658了*", "分享图片");
-        Num2 = generateUser("15912395679", "password", "Num2", "stranger");
-        于美珍 = generateUser("15972798679", "password", "于美珍", "");
-        陶生 = generateUser("15912390679", "password", "陶生", "");
-        乌托邦 = generateUser("15972790679", "password", "乌托邦", "");
-        Jess_杨姐 = generateUser("15012345679", "password", "Jess 杨姐", null);
-        老婆 = generateUser("13872530618", "password", "老婆", null);
+        荣狄王 = generateUser("18318066253", "123456", "荣狄王", "人生没有后悔药 既然选错了路 哭着也要走下去");
+        王晓庆 = generateUser("15912790679", "123456", "王晓庆", "一切都会好起来");
+        Jane = generateUser("15012345678", "123456", "Jane", "加油哦");
+        范永利 = generateUser("18311987987", "123456", "范永利", null);
+        李冰涛 = generateUser("15012395679", "123456", "李冰涛", "fire in the hole");
+        _658了 = generateUser("13972798679", "123456", "*658了*", "分享图片");
+        Num2 = generateUser("15912395679", "123456", "Num2", "stranger");
+        于美珍 = generateUser("15972798679", "123456", "于美珍", "");
+        陶生 = generateUser("15912390679", "123456", "陶生", "");
+        乌托邦 = generateUser("15972790679", "123456", "乌托邦", "");
+        Jess_杨姐 = generateUser("15012345679", "123456", "Jess 杨姐", null);
+        老婆 = generateUser("13872530618", "123456", "老婆", null);
     }
     
     private static UserInfo generateUser(String username, String password, String nickname, String signature) {

@@ -2,8 +2,8 @@ package com.project.server.network.socket;
 
 import com.project.server.ServerConfig;
 
+import engine.java.util.common.LogFactory.LOG;
 import engine.java.util.extra.MyThreadFactory;
-import engine.java.util.log.LogFactory.LOG;
 import protocol.util.ProtocolWrapper;
 
 import java.net.InetSocketAddress;
@@ -92,7 +92,7 @@ public class SocketManager implements SocketParam, Runnable {
 
 interface SocketParam {
     
-    long TIMEOUT = 4 * 60 * 1000;                   // 连接超时断开（4分钟）
+    long TIMEOUT = 60 * 1000;                       // 连接超时断开（1分钟）
     
     byte[] CRYPT_KEY                                // 数据加解密密钥
     = {0x21, 0x45, (byte) 0x83, 0x39,
@@ -111,9 +111,16 @@ class SocketListener {
     }
 
     /**
-     * 联网数据接收
+     * 数据接收
      */
     public static void onReceive(long uid) {
         SocketTimeOut.getInstance().active(uid);
+    }
+    
+    /**
+     * 连接已断开
+     */
+    public static void onClosed(long uid) {
+        SocketTimeOut.getInstance().remove(uid);
     }
 }

@@ -41,7 +41,6 @@ public class AddFriend extends TokenParser {
         
         AddFriendData data = new AddFriendData();
         data.timestamp = timestamp;
-        
         if (op == 0)
         {
             contact.toProtocol(data.info = new FriendInfo());

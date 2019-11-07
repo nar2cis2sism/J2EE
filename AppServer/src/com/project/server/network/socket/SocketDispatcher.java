@@ -2,8 +2,8 @@ package com.project.server.network.socket;
 
 import com.project.app.bean.User;
 
+import engine.java.util.common.LogFactory.LOG;
 import engine.java.util.extra.ReflectObject;
-import engine.java.util.log.LogFactory.LOG;
 import protocol.util.ProtocolWrapper.ProtocolEntity.ProtocolData;
 
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class SocketDispatcher {
      * @param data 请求数据
      * @return 应答数据
      */
-	public static ProtocolData[] dispatch(int cmd, ProtocolData data, User user) {
+	public static ProtocolData dispatch(int cmd, ProtocolData data, User user) {
         try {
             Class<? extends SocketParser<? extends ProtocolData>> cls = dispatcherMap.get(cmd);
             if (cls != null)
@@ -52,11 +52,11 @@ public class SocketDispatcher {
     
     public static abstract class SocketParser<T extends ProtocolData> {
         
-    	ProtocolData[] ack;
+    	ProtocolData ack;
         
         public abstract void parse(T data, User user) throws Exception;
         
-        protected final void setAck(ProtocolData... ack) {
+        protected final void setAck(ProtocolData ack) {
             this.ack = ack;
         }
     }

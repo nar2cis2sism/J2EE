@@ -49,5 +49,10 @@
 			<type>2</type>
 			<location>D:/Work/Project/github/Java/JavaEngine/src</location>
 		</link>
+		<link>
+			<name>JavaProtocol</name>
+			<type>2</type>
+			<location>D:/Work/Project/github/Java/JavaProtocol/src</location>
+		</link>
 	</linkedResources>
 </projectDescription>

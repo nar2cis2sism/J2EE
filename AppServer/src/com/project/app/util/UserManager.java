@@ -6,7 +6,7 @@ import com.project.app.bean.User;
 import com.project.server.storage.db.UserInfo;
 
 /**
- * 在线用户管理器
+ * 登录用户管理器
  */
 public class UserManager {
     
